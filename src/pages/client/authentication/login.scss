@@ -1,0 +1,32 @@
+.loginPage {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.formStyle {
+  border: 1px solid black;
+  border-radius: 4rem;
+  padding: 5rem;
+  background-color: white;
+  &:hover {
+    filter: drop-shadow(1rem 1rem 1rem rgba(66, 64, 64, 0.171));
+  }
+}
+
+.loginPage .ant-btn-primary {
+  background-color: #1677ff;
+  border-color: #1677ff;
+  transition: all 0.2s linear;
+  margin-right: 2rem;
+  &:hover {
+    background-color: #52c41a; // màu nền khi hover
+    border-color: #52c41a;
+    transform: scale(1.08);
+  }
+  &:focus {
+    background-color: #52c41a; // màu nền khi hover
+    border-color: #52c41a;
+  }
+}

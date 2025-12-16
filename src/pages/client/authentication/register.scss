@@ -1,0 +1,125 @@
+.registerPage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #f7f9fc 0%, #f0f2f5 100%);
+  padding: 32px;
+}
+
+/* Card chứa form */
+.registerPage .registerCard {
+  width: 100%;
+  max-width: 560px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 8px 28px rgba(16, 24, 40, 0.06);
+  border: 1px solid rgba(16, 24, 40, 0.04);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.registerPage .registerCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(16, 24, 40, 0.08);
+}
+
+/* Header */
+.registerPage .registerCard .cardHeader {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.registerPage .registerCard .cardHeader h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f1724;
+}
+
+.registerPage .registerCard .cardHeader p {
+  margin: 8px 0 0;
+  color: #606770;
+  font-size: 13px;
+}
+
+/* Form items */
+.registerPage .registerCard .ant-form-item-label > label {
+  font-weight: 600;
+  color: #20232a;
+}
+
+/* Thay vì style cả .ant-input và .ant-input-password (gây double box),
+   chỉ style wrapper .ant-input-affix-wrapper / .ant-input-password,
+   và để input bên trong trong suốt/không có border/background. */
+
+.registerPage .registerCard .ant-input-affix-wrapper,
+.registerPage .registerCard .ant-input-password {
+  border-radius: 8px;
+  background: #fbfdff;
+  border: 1px solid #e6eef6;
+  height: 44px;
+  padding: 0 12px; /* padding áp cho wrapper, không áp cho input */
+  display: flex;
+  align-items: center;
+}
+
+/* input thực tế bên trong wrapper: remove border/background, giữ text alignment */
+.registerPage .registerCard .ant-input-affix-wrapper .ant-input,
+.registerPage .registerCard .ant-input-password .ant-input {
+  border: none;
+  background: transparent;
+  height: auto;
+  padding: 0;
+  color: #20232a;
+}
+
+/* placeholder */
+.registerPage .registerCard .ant-input-affix-wrapper .ant-input::placeholder,
+.registerPage .registerCard .ant-input-password .ant-input::placeholder {
+  color: #c5c7cc;
+  opacity: 1;
+}
+
+/* focus state - apply to wrapper */
+.registerPage .registerCard .ant-input-affix-wrapper:focus,
+.registerPage .registerCard .ant-input-affix-wrapper-focused {
+  box-shadow: 0 0 0 4px rgba(24, 144, 255, 0.06);
+  border-color: #40a9ff;
+}
+
+/* Buttons */
+.registerPage .registerCard .ant-btn-primary {
+  width: 100%;
+  height: 44px;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Small helpers */
+.registerPage .actionsRow {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.registerPage .linkMuted {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .registerPage {
+    padding: 18px;
+  }
+  .registerPage .registerCard {
+    padding: 20px;
+    border-radius: 10px;
+  }
+}
