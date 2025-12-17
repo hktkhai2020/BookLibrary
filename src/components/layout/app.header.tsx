@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu, message } from "antd";
 import type { MenuProps } from "antd";
 import {
@@ -11,7 +11,7 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import { NavLink, useLocation } from "react-router-dom";
-import { currentUseContext } from "components/context/context";
+import { useCurrentContext } from "components/context/context";
 import { logoutAccountAPI } from "@/services/api.service";
 
 const Header: React.FC = () => {
@@ -19,7 +19,7 @@ const Header: React.FC = () => {
 
   const [current, setCurrent] = useState("home");
 
-  const { isUser, setUser } = currentUseContext();
+  const { isUser, setUser } = useCurrentContext();
   const location = useLocation();
   // const onClick = useCallback<NonNullable<MenuProps["onClick"]>>((e) => {
   //   setCurrent(e.key);

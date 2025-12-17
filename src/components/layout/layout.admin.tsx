@@ -11,7 +11,7 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Layout, Menu, theme, Dropdown, Space, App } from "antd";
-import { currentUseContext } from "components/context/context";
+import { useCurrentContext } from "components/context/context";
 import { logoutAccountAPI } from "@/services/api.service";
 
 const LayoutAdmin: React.FC = () => {
@@ -21,7 +21,7 @@ const LayoutAdmin: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
 
-  const { isUser, setUser } = currentUseContext();
+  const { isUser, setUser } = useCurrentContext();
   const { Content, Sider } = Layout;
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -149,7 +149,17 @@ const LayoutAdmin: React.FC = () => {
               </span>
               <Dropdown menu={{ items: itemsDropdown }} trigger={["click"]}>
                 <Space style={{ cursor: "pointer" }}>
-                  <UserOutlined />
+                  <img
+                    src={`http://localhost:8080/images/avatar/${isUser?.avatar}`}
+                    alt="avatar"
+                    style={{
+                      width: "4rem",
+                      height: "4rem",
+                      objectFit: "cover",
+                      borderRadius: "50%",
+                      border: "0.5px solid gray",
+                    }}
+                  />
                   <span> {isUser?.fullName}</span>
                 </Space>
               </Dropdown>

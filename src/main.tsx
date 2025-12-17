@@ -17,7 +17,6 @@ import ManagerOrderPage from "pages/admin/manager.order";
 import ManagerUserPage from "pages/admin/manager.user";
 import { App, ConfigProvider } from "antd";
 import enUS from "antd/locale/en_US";
-import { StrictMode } from "react";
 const router = createBrowserRouter([
   {
     path: "/",

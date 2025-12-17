@@ -3,9 +3,9 @@ import Header from "components/layout/app.header";
 import Footer from "components/layout/app.footer";
 import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-import { currentUseContext } from "components/context/context";
+import { useCurrentContext } from "components/context/context";
 function Layout() {
-  const { isAppGlobalLoading } = currentUseContext();
+  const { isAppGlobalLoading } = useCurrentContext();
 
   return isAppGlobalLoading ? (
     <Spin

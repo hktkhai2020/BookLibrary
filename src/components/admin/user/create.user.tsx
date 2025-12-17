@@ -1,62 +1,69 @@
-import React, { useState } from "react";
-import { Form, Input, Button, Row, Col, message } from "antd";
+import { Modal, Form, Row, Col, Input, App } from "antd";
 import type { FormProps } from "antd";
-import { registerAPI } from "services/api.service";
-import "./register.scss";
-import { useNavigate } from "react-router-dom";
+
+import { createUser } from "services/api.service";
 import axios from "axios";
+import { ActionType } from "@ant-design/pro-components";
+import type { MutableRefObject } from "react";
 
 type AxiosErrorResponse = {
   message?: string;
 };
 
-const Register: React.FC = () => {
+const CreateUser: React.FC<{
+  open: boolean;
+  setOpenModal: (T: boolean) => void;
+  actionRef: MutableRefObject<ActionType | undefined>;
+}> = ({ open, setOpenModal, actionRef }) => {
   type FieldType = {
     fullName: string;
     email: string;
     password: string;
     phone: string;
   };
+  const { message } = App.useApp();
 
   const [form] = Form.useForm<FieldType>();
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-
   const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
-    setIsLoading(true);
     try {
-      await registerAPI(
+      await createUser(
         values.fullName,
         values.email,
         values.password,
         values.phone
       );
       message.success("Đăng ký thành công. Vui lòng đăng nhập.");
-      form.resetFields();
-      navigate("/login", { replace: true });
-    } catch (err: unknown) {
-      console.error("register error:", err);
-      if (axios.isAxiosError(err)) {
-        const text =
-          (err.response?.data as AxiosErrorResponse | undefined)?.message ??
-          "Đăng ký thất bại";
-        message.error(text);
+      actionRef.current?.reload();
+      setOpenModal(false);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        //, dùng axios.isAxiosError() để xác định error có response, rồi mới đọc response.data
+        const msg =
+          (error.response?.data as AxiosErrorResponse | undefined)?.message ??
+          "Tạo user thất bại";
+        //?? "Tạo user thất bại" (nullish coalescing): nếu vế trái là null hoặc undefined thì dùng chuỗi fallback "Tạo user thất bại".
+        message.error(msg);
         return;
       }
-      message.error(err instanceof Error ? err.message : "Đăng ký thất bại");
-    } finally {
-      setIsLoading(false);
+      message.error(error instanceof Error ? error.message : "Có lỗi xảy ra");
     }
   };
-
   return (
-    <div className="registerPage">
-      <div className="registerCard">
-        <div className="cardHeader">
-          <h2>Đăng ký</h2>
-          <p>Hoàn tất thông tin để tạo tài khoản</p>
-        </div>
-
+    <>
+      <Modal
+        title="Update User"
+        open={open}
+        onOk={() => {
+          form.submit();
+        }}
+        onCancel={() => {
+          setOpenModal(false);
+          form.resetFields();
+        }}
+        maskClosable={false}
+        cancelText={"Quit"}
+        okText={"ADD"}
+      >
         <Form
           form={form}
           name="registerForm"
@@ -139,22 +146,10 @@ const Register: React.FC = () => {
               <Input placeholder="Phone" />
             </Form.Item>
           </Col>
-
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={isLoading}
-              disabled={isLoading}
-              className="submitBtn"
-            >
-              Đăng ký
-            </Button>
-          </Form.Item>
         </Form>
-      </div>
-    </div>
+      </Modal>
+    </>
   );
 };
 
-export default Register;
+export default CreateUser;

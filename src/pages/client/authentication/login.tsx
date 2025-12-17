@@ -15,7 +15,7 @@ import type { FormProps } from "antd";
 import "./login.scss";
 import { useNavigate } from "react-router-dom";
 import { LoginApi } from "services/api.service";
-import { currentUseContext } from "components/context/context";
+import { useCurrentContext } from "components/context/context";
 import { LoadingOutlined } from "@ant-design/icons";
 const Login: React.FC = () => {
   type FieldType = {
@@ -23,7 +23,7 @@ const Login: React.FC = () => {
     password: string;
     remember?: boolean;
   };
-  const { isUser, setUser } = currentUseContext();
+  const { isUser, setUser } = useCurrentContext();
 
   // ! là non‑null assertion operator. Nó nói với TypeScript: "Tin tôi đi, giá trị này không phải null hoặc undefined ở runtime",
   // auth.setUser!(res.data.data); // ép TS bỏ qua khả năng undefined
@@ -48,7 +48,7 @@ const Login: React.FC = () => {
         localStorage.setItem("access_token", payload?.access_token || "");
         setUser(user.user);
         if (user.user.role === "USER") {
-          navigate("/home");
+          navigate("/");
         } else {
           navigate("/admin");
         }

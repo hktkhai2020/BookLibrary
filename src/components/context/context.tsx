@@ -22,7 +22,7 @@ export const AppContext = ({ children }: { children: React.ReactNode }) => {
   const [isAppGlobalLoading, setIsAppLoading] = useState(false);
 
   const delay = (ms: number) =>
-    new Promise((resolve, reject) => {
+    new Promise((resolve) => {
       setTimeout(resolve, ms);
     });
 
@@ -50,10 +50,11 @@ export const AppContext = ({ children }: { children: React.ReactNode }) => {
   );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-export const currentUseContext = () => {
-  const useCurrentApp = useContext(AuthContext);
-  if (!useCurrentApp) {
+
+export const useCurrentContext = () => {
+  const ctx = useContext(AuthContext);
+  if (!ctx) {
     throw new Error("Loi context !");
   }
-  return useCurrentApp;
+  return ctx;
 };

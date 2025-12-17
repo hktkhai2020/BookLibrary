@@ -1,9 +1,9 @@
-import { currentUseContext } from "components/context/context";
+import { useCurrentContext } from "components/context/context";
 import { Link, useLocation } from "react-router-dom";
-import {  Result, Button } from "antd";
+import { Result, Button } from "antd";
 // use check permission
 const PrivateRoute = (props: { children: React.ReactNode }) => {
-  const { isUser } = currentUseContext();
+  const { isUser } = useCurrentContext();
   const location = useLocation();
   if (
     isUser &&

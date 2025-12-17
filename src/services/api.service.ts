@@ -40,5 +40,27 @@ const getUserAPI = (query: string) => {
   // return instance.get<IBackendRes<IModelPaginate<IUserTable>>>(BACKEND_URL);
   return instance.get(BACKEND_URL);
 };
+ const createUser = (
+  fullName: string,
+  email: string,
+  password: string,
+  phone: string
+) => {
+  const BACKEND_URL = "/api/v1/user";
+  const data = {
+    fullName,
+    email,
+    password,
+    phone,
+  };
+  return instance.post(BACKEND_URL, data);
+};
 
-export { LoginApi, loginAccountAPI, logoutAccountAPI, registerAPI, getUserAPI };
+export {
+  LoginApi,
+  loginAccountAPI,
+  logoutAccountAPI,
+  registerAPI,
+  getUserAPI,
+  createUser,
+};
