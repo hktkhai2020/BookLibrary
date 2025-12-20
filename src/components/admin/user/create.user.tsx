@@ -73,7 +73,7 @@ const CreateUser: React.FC<{
         >
           <Row gutter={16}>
             <Col xs={24} sm={24}>
-              <Form.Item
+              <Form.Item<FieldType>
                 label="Full name"
                 name="fullName"
                 rules={[
@@ -86,7 +86,7 @@ const CreateUser: React.FC<{
             </Col>
           </Row>
           <Col xs={24} sm={24}>
-            <Form.Item
+            <Form.Item<FieldType>
               label="Email"
               name="email"
               rules={[
@@ -99,7 +99,7 @@ const CreateUser: React.FC<{
           </Col>
 
           <Col xs={24} sm={24}>
-            <Form.Item
+            <Form.Item<FieldType>
               label="Password"
               name="password"
               rules={[
@@ -132,7 +132,7 @@ const CreateUser: React.FC<{
             </Form.Item>
           </Col>
           <Col xs={24} sm={24}>
-            <Form.Item
+            <Form.Item<FieldType>
               label="Phone"
               name="phone"
               rules={[

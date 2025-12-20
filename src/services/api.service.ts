@@ -40,7 +40,7 @@ const getUserAPI = (query: string) => {
   // return instance.get<IBackendRes<IModelPaginate<IUserTable>>>(BACKEND_URL);
   return instance.get(BACKEND_URL);
 };
- const createUser = (
+const createUser = (
   fullName: string,
   email: string,
   password: string,
@@ -55,7 +55,10 @@ const getUserAPI = (query: string) => {
   };
   return instance.post(BACKEND_URL, data);
 };
-
+const importListUser = (data: Partial<IUserTable>[]) => {
+  const BACKEND_URL = "/api/v1/user/bulk-create";
+  return instance.post(BACKEND_URL, data);
+};
 export {
   LoginApi,
   loginAccountAPI,
@@ -63,4 +66,5 @@ export {
   registerAPI,
   getUserAPI,
   createUser,
+  importListUser,
 };
