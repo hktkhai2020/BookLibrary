@@ -32,10 +32,10 @@ instance.interceptors.request.use(
       window.localStorage &&
       window.localStorage.getItem("access_token")
     ) {
-      (config.headers as any).Authorization =
+      config.headers.Authorization =
         "Bearer " + window.localStorage.getItem("access_token");
     }
-    
+
     return config;
   },
   (error) => {

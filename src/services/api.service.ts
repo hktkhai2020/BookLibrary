@@ -59,6 +59,22 @@ const importListUser = (data: Partial<IUserTable>[]) => {
   const BACKEND_URL = "/api/v1/user/bulk-create";
   return instance.post(BACKEND_URL, data);
 };
+const updateUser = (data: Partial<IUserTable>) => {
+  const BACKEND_URL = `/api/v1/user/`;
+  return instance.put(BACKEND_URL, data);
+};
+const deleteUser = (id: string) => {
+  const BACKEND_URL = `/api/v1/user/${id}`;
+  return instance.delete(BACKEND_URL);
+};
+const getBooksAPI = (query: string) => {
+  const BACKEND_URL = `/api/v1/book?${query}`;
+  return instance.get(BACKEND_URL);
+};
+const deleteBook = (id:string)=>{
+  const BACKEND_URL = `/api/v1/book/${id}`;
+  return instance.delete(BACKEND_URL);
+};
 export {
   LoginApi,
   loginAccountAPI,
@@ -67,4 +83,8 @@ export {
   getUserAPI,
   createUser,
   importListUser,
+  updateUser,
+  deleteUser,
+  getBooksAPI,
+  deleteBook
 };

@@ -37,7 +37,7 @@ declare global {
     avatar: string;
     id: string;
   }
-  interface  IModelPaginate<T>{
+  interface IModelPaginate<T> {
     meta: {
       current: number;
       pageSize: number;
@@ -55,6 +55,20 @@ declare global {
     avatar: string;
     isActive: boolean;
     type: string;
+    createdAt: Date;
+    updatedAt: Date;
+    __v: 0;
+  }
+  interface IBookTable {
+    _id: string;
+    thumbnail: string;
+    slider: string[];
+    mainText: string;
+    author: string;
+    price: number;
+    sold: number;
+    quantity: number;
+    category: string;
     createdAt: Date;
     updatedAt: Date;
     __v: 0;

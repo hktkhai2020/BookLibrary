@@ -6,7 +6,7 @@ import ExcelJS from "exceljs";
 import { importListUser } from "services/api.service";
 import { ActionType } from "@ant-design/pro-components";
 // Import file template Excel
-import templateFile from "@/assets/template/[React Test Fresher TS] - Data Users.xlsx";
+import templateFile from "@/assets/template/[React Test Fresher TS] - Data Users.xlsx?url";
 const { Dragger } = Upload;
 
 const ImportUser: React.FC<{
@@ -64,6 +64,48 @@ const ImportUser: React.FC<{
     []
   );
 
+  const parseCSV = useCallback(
+    async (file: File): Promise<Partial<IUserTable>[]> => {
+      const text = await file.text();
+      const lines = text.split("\n").filter((line) => line.trim()); // Filter empty lines
+      if (lines.length < 2) return [];
+
+      // Normalize headers: lowercase và trim (giống parseExcel)
+      const headers = lines[0].split(",").map((h) => h.trim().toLowerCase());
+      const data: Partial<IUserTable>[] = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        const values = lines[i].split(",").map((v) => v.trim());
+        const rowData: Partial<IUserTable> = {};
+
+        headers.forEach((header, index) => {
+          const stringValue = String(values[index] ?? "").trim();
+          if (header === "fullname" || header === "name") {
+            rowData["fullName"] = stringValue;
+          }
+          if (header === "email") {
+            rowData["email"] = stringValue;
+          }
+          if (
+            header === "phone" ||
+            header === "phonenumber" ||
+            header === "phone number"
+          ) {
+            rowData["phone"] = stringValue;
+          }
+        });
+
+        // Chỉ thêm row nếu có ít nhất 1 field
+        if (rowData.fullName || rowData.email || rowData.phone) {
+          data.push(rowData);
+        }
+      }
+
+      return data;
+    },
+    []
+  );
+
   const columns: TableProps<Partial<IUserTable>>["columns"] = [
     {
       title: "Name",
@@ -111,6 +153,14 @@ const ImportUser: React.FC<{
           message.success(
             `Successfully imported ${parsedData.length} records from file!`
           );
+        } else if (fileName.endsWith(".csv")) {
+          const parsedData = await parseCSV(file);
+          if (parsedData.length === 0) {
+            message.warning("No data found in file!");
+            setLoading(false);
+            return false;
+          }
+          setTableData(parsedData);
         } else {
           message.error(
             "File format not supported! Please upload .xlsx or .xls file."

@@ -51,12 +51,12 @@ const CreateUser: React.FC<{
   return (
     <>
       <Modal
-        title="Update User"
+        title="Create User"
         open={open}
         onOk={() => {
           form.submit();
         }}
-        onCancel={() => {
+        onCancel={() => { 
           setOpenModal(false);
           form.resetFields();
         }}

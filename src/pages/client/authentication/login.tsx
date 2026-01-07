@@ -77,7 +77,7 @@ const Login: React.FC = () => {
     form.resetFields();
   };
 
-  const onKeyEnter = (event: any) => {
+  const onKeyEnter = (event: KeyboardEvent) => {
     if (event.keyCode === 13) {
       form.submit();
     }

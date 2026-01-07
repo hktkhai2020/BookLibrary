@@ -1,4 +1,9 @@
+import TableBooks from "components/admin/books/table.books";
 const ManagerBookPage: React.FC = () => {
-  return <></>;
+  return (
+    <>
+      <TableBooks />    
+    </>
+  );
 };
 export default ManagerBookPage;

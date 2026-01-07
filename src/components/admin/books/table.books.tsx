@@ -4,75 +4,32 @@ import {
   EllipsisOutlined,
   ExportOutlined,
   PlusOutlined,
-  UploadOutlined,
 } from "@ant-design/icons";
 import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
 import { Button, Dropdown, App } from "antd";
 import { useRef, useState, useMemo, useCallback } from "react";
 import { CSVLink } from "react-csv";
-import { getUserAPI, deleteUser } from "services/api.service";
-import dayjs from "dayjs";
-import DetailUser from "@/components/admin/user/detail.user";
-import CreateUser from "@/components/admin/user/create.user";
-import ImportUser from "components/admin/user/data/import.user";
-import UpdateUser from "components/admin/user/update.user";
-interface ISearch {
-  fullName: string;
-  email: string;
-  startTime: string;
-  endTime: string;
-}
+import { deleteBook, getBooksAPI } from "services/api.service";
+import DetailBook from "components/admin/books/detail.book";
 
-const TableUser = () => {
+const TableBooks = () => {
   const { notification } = App.useApp();
   const actionRef = useRef<ActionType>();
+
+  const [exportBook, setExportBook] = useState<Partial<IBookTable>[]>([]);
+  const [detailBook, setDetailBook] =
+    useState<Partial<IBookTable | null>>(null);
+  const [openModalDetail, setOpenModalDetail] = useState<boolean>(false);
   const [meta, setMeta] = useState({
     current: 1,
     pageSize: 5,
     pages: 0,
     total: 0,
   });
-  const [open, setOpen] = useState<boolean>(false);
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [detailUser, setDetailUser] = useState<IUserTable | null>(null);
-  const [importUser, setImportUser] = useState<boolean>(false);
-  const [exportUser, setExportUser] = useState<Partial<IUserTable>[]>([]);
-  const [updateUser, setUpdateUser] = useState<boolean>(false);
-  const [userUpdate, setUserUpdate] = useState<IUserTable | null>(null);
-  const showDetailUser = useCallback((record: IUserTable) => {
-    setDetailUser(record);
-    setOpen(true);
-  }, []);
-
-  const closeDetailUser = useCallback(() => {
-    setOpen(false);
-  }, []);
-
-  const showModalCreateUser = useCallback(() => {
-    setOpenModal(true);
-  }, []);
-  const handleDeleteUser = useCallback(
-    async (id: string) => {
-      try {
-        const res = await deleteUser(id);
-        if (res.data.data) {
-          notification.success({
-            message: `${res.data.message}`,
-          });
-          actionRef.current?.reload();
-        }
-      } catch (error) {
-        notification.error({
-          message: `${error}`,
-        });
-      }
-    },
-    [notification]
-  );
 
   // Tối ưu: dùng useMemo để tránh tạo lại columns mỗi lần render
-  const columns: ProColumns<IUserTable>[] = useMemo(
+  const columns: ProColumns<IBookTable>[] = useMemo(
     () => [
       {
         dataIndex: "index",
@@ -97,7 +54,8 @@ const TableUser = () => {
           <>
             <a
               onClick={() => {
-                showDetailUser(record);
+                setOpenModalDetail(true);
+                setDetailBook(record);
               }}
             >
               {record._id}
@@ -107,34 +65,40 @@ const TableUser = () => {
         width: "auto",
       },
       {
-        disable: true,
-        title: "full name",
-        dataIndex: "fullName",
+        disable: true, // in here show in setting table direction top right
+        title: "Tên sách",
+        dataIndex: "mainText",
         sorter: true,
-        filters: true,
-        // onFilter: true,
-        ellipsis: true,
-        valueType: "select",
-        valueEnum: {
-          all: { text: "超长".repeat(50) },
-          open: {
-            text: "loi",
-          },
-          closed: {
-            text: "thanh cong",
-          },
-          processing: {
-            text: "dang xu ly",
-          },
-        },
         width: "auto",
       },
       {
         disable: true,
         copyable: true,
-        title: "Email",
-        dataIndex: "email",
+        title: "Thể Loại",
+        dataIndex: "category",
         width: "auto",
+        hideInSearch: true,
+      },
+      {
+        disable: true,
+        copyable: true,
+        title: "Tác Giả",
+        dataIndex: "author",
+        width: "auto",
+      },
+      {
+        disable: true,
+        copyable: true,
+        title: "Giá Tiền",
+
+        width: "auto",
+        hideInSearch: true,
+        render: (_, record) => {
+          return new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(record.price);
+        },
       },
       {
         title: "Create At",
@@ -176,10 +140,7 @@ const TableUser = () => {
                   marginRight: "2rem",
                   cursor: "pointer",
                 }}
-                onClick={() => {
-                  setUpdateUser(true);
-                  setUserUpdate(entity);
-                }}
+                onClick={() => {}}
               />
 
               <DeleteOutlined
@@ -188,7 +149,7 @@ const TableUser = () => {
                   cursor: "pointer",
                 }}
                 onClick={() => {
-                  handleDeleteUser(entity._id);
+                  handleDeleteBook(entity._id);
                 }}
               />
             </>,
@@ -196,33 +157,51 @@ const TableUser = () => {
         width: "auto",
       },
     ],
-    [showDetailUser, handleDeleteUser]
+    []
   ); // Chỉ tạo lại khi showDetailUser hoặc handleDeleteUser thay đổi
+  interface ISearch {
+    mainText: string;
+    author: string;
+    startTime: string;
+    endTime: string;
+  }
+  const handleDeleteBook = useCallback(
+    async (id: string) => {
+      try {
+        const res = await deleteBook(id);
+        if (res.data.data) {
+          notification.success({
+            message: `${res.data.message}`,
+          });
+          actionRef.current?.reload();
+        }
+      } catch (error) {
+        notification.error({
+          message: `${error}`,
+        });
+      }
+    },
+    [notification]
+  );
   return (
     <>
-      <ProTable<IUserTable, ISearch>
+      <ProTable<IBookTable, ISearch>
         columns={columns}
         actionRef={actionRef}
         cardBordered
         request={async (
           params,
-          sort 
-            //,filter
+          sort
+          //,filter
         ) => {
           let query = "";
           if (params && Object.keys(params).length > 0) {
             query += `current=${params.current}&pageSize=${params.pageSize}`;
-            if (params.email) {
-              query += `&email=/${params.email}/i`;
+            if (params.mainText) {
+              query += `&mainText=/${params.mainText}/i`;
             }
-            if (params.fullName) {
-              query += `&fullName=/${params.fullName}/i`;
-            }
-
-            if (params.startTime && params.endTime) {
-              query += `&createdAt>=${dayjs(
-                params.startTime
-              ).toDate()}&createdAt<=${dayjs(params.endTime).toDate()}`;
+            if (params.author) {
+              query += `&author=/${params.author}/i`;
             }
           }
           if (sort && sort.createdAt) {
@@ -232,15 +211,15 @@ const TableUser = () => {
               query += `&sort=createdAt`;
             }
           }
-          if (sort && sort.fullName) {
-            if (sort.fullName === "ascend") {
-              query += `&sort=-fullName`;
+          if (sort && sort.mainText) {
+            if (sort.mainText === "ascend") {
+              query += `&sort=-mainText`;
             } else {
-              query += `&sort=fullName`;
+              query += `&sort=mainText`;
             }
           }
-          const res = await getUserAPI(query);
-          setExportUser(res.data.data.result);
+          const res = await getBooksAPI(query);
+          setExportBook(res.data.data.result);
           if (res?.data?.data?.meta) {
             setMeta(res.data.data.meta);
           }
@@ -276,7 +255,7 @@ const TableUser = () => {
             key="button"
             icon={<PlusOutlined />}
             onClick={() => {
-              showModalCreateUser();
+              //   showModalCreateUser();
             }}
             type="primary"
           >
@@ -284,21 +263,11 @@ const TableUser = () => {
           </Button>,
           <Button
             key="button"
-            icon={<UploadOutlined />}
-            onClick={() => {
-              setImportUser(true);
-            }}
-            type="primary"
-          >
-            Import
-          </Button>,
-          <Button
-            key="button"
             icon={<ExportOutlined />}
             onClick={() => {}}
             type="primary"
           >
-            <CSVLink data={exportUser} filename="export.csv">
+            <CSVLink data={exportBook} filename="export.csv">
               Export
             </CSVLink>
           </Button>,
@@ -327,29 +296,13 @@ const TableUser = () => {
           </Dropdown>,
         ]}
       />
-      <DetailUser
-        open={open}
-        onClose={closeDetailUser}
-        detailUser={detailUser}
-      />
-      <CreateUser
-        open={openModal}
-        setOpenModal={setOpenModal}
-        actionRef={actionRef}
-      />
-      <ImportUser
-        importUser={importUser}
-        setImportUser={setImportUser}
-        actionRef={actionRef}
-      />
-      <UpdateUser
-        open={updateUser}
-        setUpdateUser={setUpdateUser}
-        userUpdate={userUpdate}
-        actionRef={actionRef}
+      <DetailBook
+        open={openModalDetail}
+        onClose={setOpenModalDetail}
+        detailBook={detailBook}
       />
     </>
   );
 };
 
-export default TableUser;
+export default TableBooks;
