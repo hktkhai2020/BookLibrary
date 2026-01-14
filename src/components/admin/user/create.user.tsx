@@ -1,6 +1,5 @@
 import { Modal, Form, Row, Col, Input, App } from "antd";
 import type { FormProps } from "antd";
-
 import { createUser } from "services/api.service";
 import axios from "axios";
 import { ActionType } from "@ant-design/pro-components";

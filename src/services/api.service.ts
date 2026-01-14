@@ -1,3 +1,4 @@
+import { UploadFile } from "antd";
 import instance from "services/axios.customize";
 
 const LoginApi = async (username: string, password: string) => {
@@ -71,9 +72,48 @@ const getBooksAPI = (query: string) => {
   const BACKEND_URL = `/api/v1/book?${query}`;
   return instance.get(BACKEND_URL);
 };
-const deleteBook = (id:string)=>{
+const deleteBook = (id: string) => {
   const BACKEND_URL = `/api/v1/book/${id}`;
   return instance.delete(BACKEND_URL);
+};
+const createBook = (
+  thumbnail: UploadFile[],
+  slider: UploadFile[],
+  mainText: string,
+  author: string,
+  price: number,
+  quantity: number,
+  category: string
+) => {
+  const BACKEND_URL = `/api/v1/book`;
+  console.log(thumbnail, slider);
+  const data = {
+    thumbnail,
+    slider,
+    mainText,
+    author,
+    price,
+    quantity,
+    category,
+  };
+  return instance.post(BACKEND_URL, data);
+};
+const uploadImage = (file: File | UploadFile, folder: string) => {
+  const BACKEND_URL = "/api/v1/file/upload";
+  const config = {
+    headers: {
+      "upload-type": folder,
+      "Content-type": "multipart/form-data",
+    },
+  };
+
+  const bodyFormData = new FormData();
+  bodyFormData.append("fileImg", file as File);
+  return instance.post(BACKEND_URL, bodyFormData, config);
+};
+const updateBook = (data: Partial<IBookTable> ,_id :string) => {
+  const BACKEND_URL = `/api/v1/book/${_id}`;
+  return instance.put(BACKEND_URL, data);
 };
 export {
   LoginApi,
@@ -86,5 +126,8 @@ export {
   updateUser,
   deleteUser,
   getBooksAPI,
-  deleteBook
+  deleteBook,
+  createBook,
+  uploadImage,
+  updateBook
 };

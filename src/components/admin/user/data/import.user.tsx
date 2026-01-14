@@ -6,7 +6,7 @@ import ExcelJS from "exceljs";
 import { importListUser } from "services/api.service";
 import { ActionType } from "@ant-design/pro-components";
 // Import file template Excel
-import templateFile from "@/assets/template/[React Test Fresher TS] - Data Users.xlsx?url";
+import templateFile from "@/assets/template/Template-data.xlsx";
 const { Dragger } = Upload;
 
 const ImportUser: React.FC<{

@@ -1,4 +1,4 @@
-import { Drawer, Descriptions, Badge } from "antd";
+import { Drawer, Descriptions, Badge, Image } from "antd";
 import type { DescriptionsProps } from "antd";
 import dayjs from "dayjs";
 const DetailBook: React.FC<{
@@ -42,10 +42,17 @@ const DetailBook: React.FC<{
       key: "6",
       label: "Thumbnail",
       children: (
-        <img
-          src={`http://localhost:8080/images/avatar/${detailBook?.thumbnail}`}
+        // <img
+        //   src={`http://localhost:8080/images/avatar/${detailBook?.thumbnail}`}
+        //   style={{ width: "5rem", height: "4rem", objectFit: "cover" }}
+        //   alt=""
+        // />
+
+        <Image
+          width={200}
+          alt="basic"
+          src={`http://localhost:8080/images/book/${detailBook?.thumbnail}`}
           style={{ width: "5rem", height: "4rem", objectFit: "cover" }}
-          alt=""
         />
       ),
       span: 1.5,
@@ -53,14 +60,46 @@ const DetailBook: React.FC<{
     {
       key: "7",
       label: "Created At",
-      children: <>{dayjs(detailBook?.createdAt).format("YYYY-MM-DD")}</>,
+      children: <>{dayjs(detailBook?.createdAt).format("DD-MM-YYYY")}</>,
       span: 1.5,
     },
     {
       key: "8",
       label: "Updated At",
-      children: <>{dayjs(detailBook?.updatedAt).format("YYYY-MM-DD")}</>,
+      children: <>{dayjs(detailBook?.updatedAt).format("DD-MM-YYYY")}</>,
       span: 1.5,
+    },
+    {
+      key: "9",
+      label: "preview",
+      children: (
+        <>
+          {detailBook?.slider && detailBook.slider.length > 0 ? (
+            <Image.PreviewGroup>
+              {detailBook.slider.map((item, index) => {
+                return (
+                  <Image
+                    key={index}
+                    width={200}
+                    alt={`book-image-${index}`}
+                    src={`http://localhost:8080/images/book/${item}`}
+                    style={{
+                      width: "5rem",
+                      height: "4rem",
+                      objectFit: "cover",
+                      marginRight: "8px",
+                      marginBottom: "8px",
+                    }}
+                  />
+                );
+              })}
+            </Image.PreviewGroup>
+          ) : (
+            <span>No images available</span>
+          )}
+        </>
+      ),
+      span: 3,
     },
   ];
   return (

@@ -1,11 +1,11 @@
 {
-  "name": "react-test-fresher-ts",
+  "name": "Quan Ly Ban Hang",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "author": {
-    "name": "Hỏi Dân IT vs Eric",
-    "url": "https://hoidanit.vn"
+    "name": "hktkhai2020",
+    "url": "https://github.com/hktkhai2020"
   },
   "scripts": {
     "dev": "vite",
@@ -26,7 +26,8 @@
     "react-csv": "^2.2.2",
     "react-dom": "18.3.1",
     "react-router-dom": "^7.9.1",
-    "umi-request": "^1.4.0"
+    "umi-request": "^1.4.0",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@eslint/js": "9.12.0",

@@ -7,12 +7,13 @@ import {
 } from "@ant-design/icons";
 import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
-import { Button, Dropdown, App } from "antd";
+import { Button, Dropdown, App, Popconfirm } from "antd";
 import { useRef, useState, useMemo, useCallback } from "react";
 import { CSVLink } from "react-csv";
 import { deleteBook, getBooksAPI } from "services/api.service";
 import DetailBook from "components/admin/books/detail.book";
-
+import CreateBook from "components/admin/books/create.book";
+import UpdateBook from "components/admin/books/update.book.tsx";
 const TableBooks = () => {
   const { notification } = App.useApp();
   const actionRef = useRef<ActionType>();
@@ -21,12 +22,34 @@ const TableBooks = () => {
   const [detailBook, setDetailBook] =
     useState<Partial<IBookTable | null>>(null);
   const [openModalDetail, setOpenModalDetail] = useState<boolean>(false);
+  const [openModalCreate, setOpenModalCreate] = useState<boolean>(false);
   const [meta, setMeta] = useState({
     current: 1,
     pageSize: 5,
     pages: 0,
     total: 0,
   });
+  const [openModalUpdate, setOpenModalUpdate] = useState<boolean>(false);
+  const [bookUpdate, setBookUpdate] = useState<IBookTable | null>(null);
+
+  const handleDeleteBook = useCallback(
+    async (id: string) => {
+      try {
+        const res = await deleteBook(id);
+        if (res.data.data) {
+          notification.success({
+            message: `${res.data.message}`,
+          });
+          actionRef.current?.reload();
+        }
+      } catch (error) {
+        notification.error({
+          message: `${error}`,
+        });
+      }
+    },
+    [notification]
+  );
 
   // Tối ưu: dùng useMemo để tránh tạo lại columns mỗi lần render
   const columns: ProColumns<IBookTable>[] = useMemo(
@@ -140,49 +163,45 @@ const TableBooks = () => {
                   marginRight: "2rem",
                   cursor: "pointer",
                 }}
-                onClick={() => {}}
+                onClick={() => {
+                  setOpenModalUpdate(true);
+                  setBookUpdate(entity);
+                }}
               />
 
-              <DeleteOutlined
-                style={{
-                  color: "red",
-                  cursor: "pointer",
-                }}
-                onClick={() => {
+              <Popconfirm
+                title="Xóa sách"
+                description="Bạn có chắc chắn muốn xóa sách này không?"
+                onConfirm={() => {
                   handleDeleteBook(entity._id);
                 }}
-              />
+                okText="Xóa"
+                cancelText="Hủy"
+                okButtonProps={{ danger: true }}
+              >
+                <DeleteOutlined
+                  style={{
+                    color: "red",
+                    cursor: "pointer",
+                  }}
+                />
+              </Popconfirm>
             </>,
           ],
         width: "auto",
       },
     ],
-    []
-  ); // Chỉ tạo lại khi showDetailUser hoặc handleDeleteUser thay đổi
+    [handleDeleteBook]
+  ); // Chỉ tạo lại khi handleDeleteBook thay đổi
   interface ISearch {
     mainText: string;
     author: string;
     startTime: string;
     endTime: string;
   }
-  const handleDeleteBook = useCallback(
-    async (id: string) => {
-      try {
-        const res = await deleteBook(id);
-        if (res.data.data) {
-          notification.success({
-            message: `${res.data.message}`,
-          });
-          actionRef.current?.reload();
-        }
-      } catch (error) {
-        notification.error({
-          message: `${error}`,
-        });
-      }
-    },
-    [notification]
-  );
+  const showModalCreateBook = useCallback(() => {
+    setOpenModalCreate(true);
+  }, []);
   return (
     <>
       <ProTable<IBookTable, ISearch>
@@ -255,7 +274,7 @@ const TableBooks = () => {
             key="button"
             icon={<PlusOutlined />}
             onClick={() => {
-              //   showModalCreateUser();
+              showModalCreateBook();
             }}
             type="primary"
           >
@@ -300,6 +319,17 @@ const TableBooks = () => {
         open={openModalDetail}
         onClose={setOpenModalDetail}
         detailBook={detailBook}
+      />
+      <CreateBook
+        open={openModalCreate}
+        actionRef={actionRef}
+        setOpenModalCreate={setOpenModalCreate}
+      />
+      <UpdateBook
+        open={openModalUpdate}
+        setOpen={setOpenModalUpdate}
+        book={bookUpdate!}
+        actionRef={actionRef}
       />
     </>
   );
