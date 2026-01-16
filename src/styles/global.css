@@ -1,0 +1,68 @@
+@import "tailwindcss";
+@import "react-image-gallery/styles/css/image-gallery.css";
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+/* Reset chỉ cho các elements cụ thể, không reset margin/padding để Tailwind hoạt động */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Giá trị fallback, sẽ bị override bởi ThemeVariablesProvider */
+  --ant-border-radius-lg: 8px;
+  --ant-border-radius-md: 6px;
+  --ant-border-radius-sm: 4px;
+
+  --ant-color-bg-container: #ffffff;
+  --ant-color-primary: #1677ff;
+  --ant-color-success: #52c41a;
+  --ant-color-warning: #faad14;
+  --ant-color-error: #ff4d4f;
+  --ant-color-info: #1677ff;
+}
+
+html {
+  width: 100%;
+  font-size: 12px;
+  overflow-x: hidden;
+}
+
+body {
+  width: 100%;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Fix horizontal scrollbar for image gallery */
+.image-gallery {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.image-gallery-content {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.image-gallery-slide-wrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+}

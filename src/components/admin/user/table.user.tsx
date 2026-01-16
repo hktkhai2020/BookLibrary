@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
-import { Button, Dropdown, App } from "antd";
+import { Button, Dropdown, App, Grid } from "antd";
 import { useRef, useState, useMemo, useCallback } from "react";
 import { CSVLink } from "react-csv";
 import { getUserAPI, deleteUser } from "services/api.service";
@@ -27,6 +27,9 @@ interface ISearch {
 const TableUser = () => {
   const { notification } = App.useApp();
   const actionRef = useRef<ActionType>();
+  const { useBreakpoint } = Grid;
+  const screens = useBreakpoint();
+  const isMobile = !screens.md; // md breakpoint là 768px
   const [meta, setMeta] = useState({
     current: 1,
     pageSize: 5,
@@ -135,6 +138,7 @@ const TableUser = () => {
         title: "Email",
         dataIndex: "email",
         width: "auto",
+        hideInTable: isMobile, // Ẩn trên mobile
       },
       {
         title: "Create At",
@@ -149,6 +153,7 @@ const TableUser = () => {
         sortDirections: ["ascend", "descend"],
         hideInSearch: true,
         width: "auto",
+        hideInTable: isMobile, // Ẩn trên mobile
       },
       {
         title: "Create At",
@@ -196,18 +201,20 @@ const TableUser = () => {
         width: "auto",
       },
     ],
-    [showDetailUser, handleDeleteUser]
-  ); // Chỉ tạo lại khi showDetailUser hoặc handleDeleteUser thay đổi
+    [showDetailUser, handleDeleteUser, isMobile]
+  ); // Tạo lại khi showDetailUser, handleDeleteUser hoặc isMobile thay đổi
   return (
     <>
       <ProTable<IUserTable, ISearch>
         columns={columns}
         actionRef={actionRef}
         cardBordered
+        scroll={{ x: "max-content" }}
+        size={isMobile ? "small" : "middle"}
         request={async (
           params,
-          sort 
-            //,filter
+          sort
+          //,filter
         ) => {
           let query = "";
           if (params && Object.keys(params).length > 0) {

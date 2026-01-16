@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import Layout from "@/layout.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "styles/global.scss";
+import "styles/global.css";
 import Login from "@/pages/client/authentication/login";
 import Register from "@/pages/client/authentication/register";
 import HomePage from "@/pages/client/home";
@@ -17,6 +17,7 @@ import ManagerOrderPage from "pages/admin/manager.order";
 import ManagerUserPage from "pages/admin/manager.user";
 import { App, ConfigProvider } from "antd";
 import enUS from "antd/locale/en_US";
+import { ThemeVariablesProvider } from "@/components/theme/theme.provider";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/book",
+        path: "/book/",
         element: (
           <PrivateRoute>
             <BookPage />
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
             <AboutPage />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "book/:id",
+        element: <BookPage />,
       },
     ],
   },
@@ -106,7 +111,9 @@ createRoot(document.getElementById("root")!).render(
   <App>
     <AppContext>
       <ConfigProvider locale={enUS}>
-        <RouterProvider router={router} />
+        <ThemeVariablesProvider>
+          <RouterProvider router={router} />
+        </ThemeVariablesProvider>
       </ConfigProvider>
     </AppContext>
   </App>

@@ -1,5 +1,5 @@
-import { Link, useNavigate, Outlet } from "react-router-dom";
-import React, { useState } from "react";
+import { Link, useNavigate, Outlet, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import {
   AppstoreOutlined,
   DollarCircleOutlined,
@@ -17,7 +17,10 @@ import { logoutAccountAPI } from "@/services/api.service";
 const LayoutAdmin: React.FC = () => {
   const { message } = App.useApp();
 
+  const location = useLocation();
+
   const [activeMenu, setActiveMenu] = useState("dashboard");
+  const [openKeys, setOpenKeys] = useState<string[]>([]);
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
 
@@ -27,6 +30,21 @@ const LayoutAdmin: React.FC = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+  useEffect(() => {
+    if (location.pathname === "/admin/dashboard") {
+      setActiveMenu("dashboard");
+      setOpenKeys([]);
+    } else if (location.pathname === "/admin/user") {
+      setActiveMenu("crud");
+      setOpenKeys(["user"]);
+    } else if (location.pathname === "/admin/book") {
+      setActiveMenu("book");
+      setOpenKeys([]);
+    } else if (location.pathname === "/admin/order") {
+      setActiveMenu("order");
+      setOpenKeys([]);
+    }
+  }, [location.pathname]);
   const items: MenuProps["items"] = [
     {
       label: <Link to="/admin/dashboard">Dashboard</Link>,
@@ -118,7 +136,9 @@ const LayoutAdmin: React.FC = () => {
           >
             <Menu
               mode="inline"
-              defaultSelectedKeys={[activeMenu]}
+              selectedKeys={[activeMenu]}
+              openKeys={openKeys}
+              onOpenChange={setOpenKeys}
               style={{ height: "100%" }}
               items={items}
               onClick={(e) => {

@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
-import { Button, Dropdown, App, Popconfirm } from "antd";
+import { Button, Dropdown, App, Popconfirm, Grid } from "antd";
 import { useRef, useState, useMemo, useCallback } from "react";
 import { CSVLink } from "react-csv";
 import { deleteBook, getBooksAPI } from "services/api.service";
@@ -17,6 +17,9 @@ import UpdateBook from "components/admin/books/update.book.tsx";
 const TableBooks = () => {
   const { notification } = App.useApp();
   const actionRef = useRef<ActionType>();
+  const { useBreakpoint } = Grid;
+  const screens = useBreakpoint();
+  const isMobile = !screens.md; // md breakpoint là 768px
 
   const [exportBook, setExportBook] = useState<Partial<IBookTable>[]>([]);
   const [detailBook, setDetailBook] =
@@ -101,6 +104,7 @@ const TableBooks = () => {
         dataIndex: "category",
         width: "auto",
         hideInSearch: true,
+        hideInTable: isMobile, // Ẩn trên mobile
       },
       {
         disable: true,
@@ -108,14 +112,15 @@ const TableBooks = () => {
         title: "Tác Giả",
         dataIndex: "author",
         width: "auto",
+        hideInTable: isMobile, // Ẩn trên mobile
       },
       {
         disable: true,
         copyable: true,
         title: "Giá Tiền",
-
         width: "auto",
         hideInSearch: true,
+        hideInTable: isMobile, // Ẩn trên mobile
         render: (_, record) => {
           return new Intl.NumberFormat("vi-VN", {
             style: "currency",
@@ -136,6 +141,7 @@ const TableBooks = () => {
         sortDirections: ["ascend", "descend"],
         hideInSearch: true,
         width: "auto",
+        hideInTable: isMobile, // Ẩn trên mobile
       },
       {
         title: "Create At",
@@ -191,8 +197,8 @@ const TableBooks = () => {
         width: "auto",
       },
     ],
-    [handleDeleteBook]
-  ); // Chỉ tạo lại khi handleDeleteBook thay đổi
+    [handleDeleteBook, isMobile]
+  ); // Tạo lại khi handleDeleteBook hoặc isMobile thay đổi
   interface ISearch {
     mainText: string;
     author: string;
@@ -208,6 +214,8 @@ const TableBooks = () => {
         columns={columns}
         actionRef={actionRef}
         cardBordered
+        scroll={{ x: "max-content" }}
+        size={isMobile ? "small" : "middle"}
         request={async (
           params,
           sort

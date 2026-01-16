@@ -9,7 +9,7 @@ const LoginApi = async (username: string, password: string) => {
   };
   return await instance.post<IBackendRes<ILogin>>(BACKEND_URL, data, {
     headers: {
-      delay: "2000",
+      // delay:5000,
     },
   });
 };
@@ -72,6 +72,14 @@ const getBooksAPI = (query: string) => {
   const BACKEND_URL = `/api/v1/book?${query}`;
   return instance.get(BACKEND_URL);
 };
+const getBookDetailAPI = (id: string) => {
+  const BACKEND_URL = `/api/v1/book/${id}`;
+  return instance.get(BACKEND_URL, {
+    headers: {
+      delay: 1000,
+    },
+  });
+};
 const deleteBook = (id: string) => {
   const BACKEND_URL = `/api/v1/book/${id}`;
   return instance.delete(BACKEND_URL);
@@ -111,7 +119,7 @@ const uploadImage = (file: File | UploadFile, folder: string) => {
   bodyFormData.append("fileImg", file as File);
   return instance.post(BACKEND_URL, bodyFormData, config);
 };
-const updateBook = (data: Partial<IBookTable> ,_id :string) => {
+const updateBook = (data: Partial<IBookTable>, _id: string) => {
   const BACKEND_URL = `/api/v1/book/${_id}`;
   return instance.put(BACKEND_URL, data);
 };
@@ -126,8 +134,9 @@ export {
   updateUser,
   deleteUser,
   getBooksAPI,
+  getBookDetailAPI,
   deleteBook,
   createBook,
   uploadImage,
-  updateBook
+  updateBook,
 };

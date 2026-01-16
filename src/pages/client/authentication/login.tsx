@@ -47,6 +47,7 @@ const Login: React.FC = () => {
         message.success("Login Success !");
         localStorage.setItem("access_token", payload?.access_token || "");
         setUser(user.user);
+        console.log(user.user.role);
         if (user.user.role === "USER") {
           navigate("/");
         } else {
@@ -57,10 +58,17 @@ const Login: React.FC = () => {
           message: res.data.message || "Login failed!",
         });
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("Login error:", err);
-      const msg =
-        err?.response?.data?.message || err?.message || "Login failed!";
+      let msg = "Login failed!";
+      if (err && typeof err === "object") {
+        const error = err as {
+          response?: { data?: { message?: string } };
+          message?: string;
+        };
+        msg =
+          error?.response?.data?.message || error?.message || "Login failed!";
+      }
       notification.error({ message: msg });
     } finally {
       setIsLoading(false);
@@ -77,8 +85,8 @@ const Login: React.FC = () => {
     form.resetFields();
   };
 
-  const onKeyEnter = (event: KeyboardEvent) => {
-    if (event.keyCode === 13) {
+  const onKeyEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter" || event.keyCode === 13) {
       form.submit();
     }
   };

@@ -1,120 +1,210 @@
-import React, { useState, useEffect } from "react";
-import { Menu, message } from "antd";
+import React, { useState } from "react";
+import { Input, Dropdown, Avatar, message } from "antd";
 import type { MenuProps } from "antd";
 import {
-  HomeOutlined,
-  BookOutlined,
-  HighlightOutlined,
-  LoginOutlined,
-  EditOutlined,
-  SettingOutlined,
+  SearchOutlined,
+  UserOutlined,
   LogoutOutlined,
+  HomeOutlined,
+  SettingOutlined,
+  RobotOutlined,
 } from "@ant-design/icons";
-import { NavLink, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCurrentContext } from "components/context/context";
 import { logoutAccountAPI } from "@/services/api.service";
+import AIChatModal from "./ai-chat.modal";
 
 const Header: React.FC = () => {
-  type MenuItem = Required<MenuProps>["items"][number];
-
-  const [current, setCurrent] = useState("home");
-
   const { isUser, setUser } = useCurrentContext();
-  const location = useLocation();
-  // const onClick = useCallback<NonNullable<MenuProps["onClick"]>>((e) => {
-  //   setCurrent(e.key);
-  // }, []);
+  const navigate = useNavigate();
+  const [searchValue, setSearchValue] = useState("");
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
 
   const handleLogout = async () => {
-    const res = await logoutAccountAPI();
-    if (res.data) {
-      setUser(null);
-      localStorage.removeItem("access_token");
-      message.success(`${res.data.data}`);
+    try {
+      const res = await logoutAccountAPI();
+      if (res.data) {
+        setUser(null);
+        localStorage.removeItem("access_token");
+        message.success(`${res.data.data}`);
+        navigate("/");
+      }
+    } catch {
+      message.error("Logout failed!");
     }
   };
 
-  useEffect(() => {
-    if (location.pathname === "/") {
-      setCurrent("home");
-    } else if (location.pathname === "/book") {
-      setCurrent("book");
-    } else if (location.pathname === "/about") {
-      setCurrent("about");
+  const handleSearch = (value: string) => {
+    if (value.trim()) {
+      setSearchValue(value);
+      setIsAIModalOpen(true);
     }
-  }, [location.pathname]);
+  };
 
-  console.log("Header: render");
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && searchValue.trim()) {
+      setIsAIModalOpen(true);
+    }
+  };
 
-  const items: MenuItem[] = [
-    {
-      label: <NavLink to={"/"}> Home</NavLink>,
-      key: "home",
-      icon: <HomeOutlined />,
-      disabled: false,
-    },
-    {
-      label: <NavLink to={"/book"}> Book</NavLink>,
-      key: "book",
-      icon: <BookOutlined />,
-      disabled: false,
-    },
-    {
-      label: <NavLink to={"/about"}> About</NavLink>,
-      key: "about",
-      icon: <HighlightOutlined />,
-      disabled: false,
-    },
-    ...(isUser
-      ? [
-          {
-            label: `Welcome ${isUser.id ? isUser.fullName : "Settings"}`,
-            key: "setting",
-            icon: <SettingOutlined />,
-            disabled: false,
-            children: [
+  const userMenuItems: MenuProps["items"] = isUser
+    ? ([
+        {
+          key: "user-info",
+          label: (
+            <div className="px-2 py-1">
+              <div className="font-semibold text-sm">{isUser.fullName}</div>
+              <div className="text-xs text-gray-500">{isUser.email}</div>
+            </div>
+          ),
+          disabled: true,
+        },
+        {
+          type: "divider" as const,
+        },
+        ...(isUser.role === "ADMIN"
+          ? [
               {
+                key: "admin",
                 label: (
-                  <NavLink to={"/"} onClick={handleLogout}>
-                    LogOut
-                  </NavLink>
+                  <div
+                    className="flex items-center gap-2 cursor-pointer"
+                    onClick={() => navigate("/admin")}
+                  >
+                    <SettingOutlined />
+                    <span>Quản trị</span>
+                  </div>
                 ),
-                key: "logOut",
-                icon: <LogoutOutlined />,
               },
-            ],
-          },
-        ]
-      : [
-          {
-            label: <NavLink to={"/login"}> Login</NavLink>,
-            key: "login",
-            icon: <LoginOutlined />,
-            disabled: false,
-            children: [
               {
+                key: "home",
                 label: (
-                  <NavLink to={"/register"} replace>
-                    {" "}
-                    Register
-                  </NavLink>
+                  <div
+                    className="flex items-center gap-2 cursor-pointer"
+                    onClick={() => navigate("/")}
+                  >
+                    <HomeOutlined />
+                    <span>Home</span>
+                  </div>
                 ),
-                key: "register",
-                icon: <EditOutlined />,
               },
-            ],
-          },
-        ]),
-  ];
+              {
+                type: "divider" as const,
+              },
+            ]
+          : []),
+        {
+          key: "logout",
+          label: (
+            <div
+              className="flex items-center gap-2 cursor-pointer text-red-500"
+              onClick={handleLogout}
+            >
+              <LogoutOutlined />
+              <span>Đăng xuất</span>
+            </div>
+          ),
+        },
+      ] as MenuProps["items"])
+    : [
+        {
+          key: "login",
+          label: (
+            <div
+              className="flex items-center gap-2 cursor-pointer"
+              onClick={() => navigate("/login")}
+            >
+              <UserOutlined />
+              <span>Đăng nhập</span>
+            </div>
+          ),
+        },
+      ];
+
   return (
     <>
-      <Menu
-        // onClick={onClick}
-        selectedKeys={[current]}
-        mode="horizontal"
-        items={items}
+      <header className="w-full bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo/Brand */}
+            <div
+              className="flex items-center cursor-pointer"
+              onClick={() => navigate("/")}
+            >
+              <h1 className="text-xl sm:text-2xl font-bold text-blue-600">
+                BookStore
+              </h1>
+            </div>
+
+            {/* Search Bar */}
+            <div className="flex-1 max-w-2xl mx-4 sm:mx-8">
+              <Input
+                size="large"
+                placeholder="Hỏi AI về sách, tác giả..."
+                prefix={<SearchOutlined className="text-gray-400" />}
+                suffix={
+                  <RobotOutlined
+                    className="text-blue-500 cursor-pointer"
+                    title="AI Assistant"
+                    onClick={() => {
+                      if (searchValue.trim()) {
+                        handleSearch(searchValue);
+                      }
+                    }}
+                  />
+                }
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                onPressEnter={handleKeyPress}
+                allowClear
+                className="w-full"
+              />
+            </div>
+
+            {/* User Menu */}
+            <div className="flex items-center gap-4">
+              {isUser ? (
+                <Dropdown
+                  menu={{ items: userMenuItems }}
+                  placement="bottomRight"
+                  trigger={["click"]}
+                >
+                  <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+                    <Avatar
+                      src={isUser.avatar}
+                      icon={<UserOutlined />}
+                      className="border-2 border-blue-500"
+                    />
+                    <span className="hidden sm:inline text-sm font-medium">
+                      {isUser.fullName}
+                    </span>
+                  </div>
+                </Dropdown>
+              ) : (
+                <div
+                  className="flex items-center gap-2 cursor-pointer px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+                  onClick={() => navigate("/login")}
+                >
+                  <UserOutlined />
+                  <span className="hidden sm:inline text-sm">Đăng nhập</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* AI Chat Modal */}
+      <AIChatModal
+        isOpen={isAIModalOpen}
+        onClose={() => {
+          setIsAIModalOpen(false);
+          setSearchValue("");
+        }}
+        initialQuestion={searchValue}
       />
     </>
   );
 };
+
 export default React.memo(Header);
