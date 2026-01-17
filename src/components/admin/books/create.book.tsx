@@ -483,6 +483,7 @@ const CreateBook: React.FC<{
                 getValueFromEvent={normFile}
               >
                 <Upload
+                
                   multiple={true}
                   listType="picture-card"
                   /**

@@ -144,6 +144,7 @@ const HomePage: React.FC = () => {
               form={form}
               onFinish={(values) => {
                 setIsLoading(true);
+
                 const params = new URLSearchParams(query);
 
                 // Xử lý category (array)
@@ -171,6 +172,9 @@ const HomePage: React.FC = () => {
                 // Reset về trang 1 khi filter
                 params.set("current", "1");
 
+                if (params.toString() === query) {
+                  setIsLoading(false);
+                }
                 setQuery(params.toString());
               }}
               layout="vertical"

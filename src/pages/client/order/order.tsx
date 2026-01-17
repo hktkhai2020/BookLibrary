@@ -476,7 +476,7 @@ const OrderPage = () => {
             <Button type="primary" key="console" onClick={() => navigate("/")}>
               Go Home
             </Button>,
-            <Button key="buy" onClick={() => navigate("/order")}>
+            <Button key="buy" onClick={() => navigate("/order/history")}>
               Xem lại đơn hàng
             </Button>,
           ]}

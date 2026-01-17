@@ -18,16 +18,19 @@ import {
   SettingOutlined,
   RobotOutlined,
   ShoppingCartOutlined,
+  HistoryOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useCurrentContext } from "components/context/context";
 import { logoutAccountAPI } from "@/services/api.service";
 import AIChatModal from "./ai-chat.modal";
+import ProfilePage from "pages/client/profile/profile";
 const Header: React.FC = () => {
   const { isUser, setUser, shoppingCart } = useCurrentContext();
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -121,6 +124,30 @@ const Header: React.FC = () => {
             </div>
           ),
           disabled: true,
+        },
+        {
+          key: "profile-detail",
+          label: (
+            <div
+              className="flex items-center gap-2 cursor-pointer"
+              onClick={() => setIsProfileOpen(true)}
+            >
+              <UserOutlined />
+              <span>Thông tin cá nhân</span>
+            </div>
+          ),
+        },
+        {
+          key: "order-history",
+          label: (
+            <div
+              className="flex items-center gap-2 cursor-pointer"
+              onClick={() => navigate("/order/history")}
+            >
+              <HistoryOutlined />
+              <span>Lịch sử đơn hàng</span>
+            </div>
+          ),
         },
         {
           type: "divider" as const,
@@ -240,8 +267,7 @@ const Header: React.FC = () => {
                 >
                   <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
                     <Avatar
-                      src={isUser.avatar}
-                      icon={<UserOutlined />}
+                      src={`http://localhost:8080/images/avatar/${isUser.avatar}`}
                       className="border-2 border-blue-500"
                     />
                     <span className="hidden sm:inline text-sm font-medium">
@@ -271,6 +297,11 @@ const Header: React.FC = () => {
           setSearchValue("");
         }}
         initialQuestion={searchValue}
+      />
+
+      <ProfilePage
+        isOpen={isProfileOpen}
+        onClose={() => setIsProfileOpen(false)}
       />
     </>
   );

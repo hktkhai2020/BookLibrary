@@ -129,6 +129,42 @@ const createOrder = (data: IOrderTable) => {
   const BACKEND_URL = `/api/v1/order`;
   return instance.post(BACKEND_URL, data);
 };
+const ordersHistoryAPI = () => {
+  const BACKEND_URL = `/api/v1/history`;
+  return instance.get(BACKEND_URL);
+};
+
+const updatePasswordAPI = (data: {
+  email: string;
+  oldpass: string;
+  newpass: string;
+}) => {
+  const BACKEND_URL = `/api/v1/user/change-password`;
+  return instance.post(BACKEND_URL, data);
+};
+const updateInfoAPI = (data: {
+  fullName: string;
+  phone: string;
+  avatar: string;
+  _id: string;
+}) => {
+  const BACKEND_URL = `/api/v1/user`;
+  return instance.put(BACKEND_URL, data);
+};
+const uploadAvatarAPI = (file: File | UploadFile) => {
+  const BACKEND_URL = "/api/v1/file/upload";
+  const config = {
+    headers: {
+      "upload-type": "avatar",
+      "Content-type": "multipart/form-data",
+    },
+  };
+
+  const bodyFormData = new FormData();
+  bodyFormData.append("fileImg", file as File);
+  return instance.post(BACKEND_URL, bodyFormData, config);
+};
+
 export {
   LoginApi,
   loginAccountAPI,
@@ -146,4 +182,8 @@ export {
   uploadImage,
   updateBook,
   createOrder,
+  ordersHistoryAPI,
+  updatePasswordAPI,
+  updateInfoAPI,
+  uploadAvatarAPI,
 };

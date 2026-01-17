@@ -14,10 +14,11 @@ import DashboardPage from "pages/admin/dashboard";
 import ManagerBookPage from "pages/admin/manager.book";
 import ManagerOrderPage from "pages/admin/manager.order";
 import ManagerUserPage from "pages/admin/manager.user";
+import OrderPage from "pages/client/order/order";
+import OrderHistoryPage from "pages/client/order/order.history";
 import { App, ConfigProvider } from "antd";
 import enUS from "antd/locale/en_US";
 import { ThemeVariablesProvider } from "@/components/theme/theme.provider";
-import OrderPage from "@/pages/client/order";
 import "styles/global.css";
 import "nprogress/nprogress.css";
 
@@ -59,6 +60,14 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "order/history",
+        element: (
+          <PrivateRoute>
+            <OrderHistoryPage />
+          </PrivateRoute>
+        ),
+      }
     ],
   },
   {

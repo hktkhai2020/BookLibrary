@@ -8,7 +8,7 @@ nProgress.configure({
 });
 
 const instance = axios.create({
-  baseURL: `http://localhost:8080`, // import.meta.env.VITE_BACKEND_URL,
+  baseURL: import.meta.env.VITE_BACKEND_URL,
   withCredentials: true, // gửi cookie tự động
 });
 instance.interceptors.request.use(
