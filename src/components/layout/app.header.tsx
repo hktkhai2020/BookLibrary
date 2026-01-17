@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Input, Dropdown, Avatar, message } from "antd";
+import {
+  Input,
+  Dropdown,
+  Avatar,
+  message,
+  Badge,
+  Popover,
+  Button,
+  Divider,
+} from "antd";
 import type { MenuProps } from "antd";
 import {
   SearchOutlined,
@@ -8,14 +17,14 @@ import {
   HomeOutlined,
   SettingOutlined,
   RobotOutlined,
+  ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useCurrentContext } from "components/context/context";
 import { logoutAccountAPI } from "@/services/api.service";
 import AIChatModal from "./ai-chat.modal";
-
 const Header: React.FC = () => {
-  const { isUser, setUser } = useCurrentContext();
+  const { isUser, setUser, shoppingCart } = useCurrentContext();
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
@@ -46,7 +55,61 @@ const Header: React.FC = () => {
       setIsAIModalOpen(true);
     }
   };
-
+  const contentCart = (
+    <div className="w-80 max-h-[400px] flex flex-col ">
+      {shoppingCart.length > 0 ? (
+        <>
+          <div className="flex-1 overflow-y-auto px-1 py-2 space-y-3">
+            {shoppingCart.map((item) => (
+              <div
+                key={item._id}
+                className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors group"
+              >
+                <div className="w-12 h-16 shrink-0">
+                  <img
+                    src={`http://localhost:8080/images/book/${item.detail.thumbnail}`}
+                    alt={item.detail.thumbnail}
+                    className="w-full h-full object-cover rounded shadow-sm group-hover:shadow-md transition-shadow"
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-semibold text-gray-800 truncate mb-1">
+                    {item.detail.mainText}
+                  </div>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-gray-500 font-medium">
+                      SL: {item.quantity}
+                    </span>
+                    <span className="text-blue-600 font-bold">
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(item.detail.price)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <Divider className="my-2" />
+          <div className="mt-2 p-1">
+            <Button
+              type="primary"
+              className="w-full h-10 bg-blue-600 hover:bg-blue-700 font-semibold"
+              onClick={() => navigate("/order")}
+            >
+              Xem Giỏ Hàng
+            </Button>
+          </div>
+        </>
+      ) : (
+        <div className="py-10 flex flex-col items-center gap-3 text-gray-400">
+          <ShoppingCartOutlined className="text-4xl opacity-20" />
+          <p className="text-sm">Giỏ hàng của bạn đang trống</p>
+        </div>
+      )}
+    </div>
+  );
   const userMenuItems: MenuProps["items"] = isUser
     ? ([
         {
@@ -162,7 +225,13 @@ const Header: React.FC = () => {
             </div>
 
             {/* User Menu */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-10">
+              <Badge count={shoppingCart.length || 1} className="w-10 h-10   ">
+                <Popover placement="bottom" title="Carts" content={contentCart}>
+                  <ShoppingCartOutlined className="text-blue-500 cursor-pointer w-full h-full" />
+                </Popover>
+              </Badge>
+
               {isUser ? (
                 <Dropdown
                   menu={{ items: userMenuItems }}

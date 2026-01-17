@@ -18,6 +18,7 @@ import ManagerUserPage from "pages/admin/manager.user";
 import { App, ConfigProvider } from "antd";
 import enUS from "antd/locale/en_US";
 import { ThemeVariablesProvider } from "@/components/theme/theme.provider";
+import OrderPage from "@/pages/client/order";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -26,11 +27,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-          <PrivateRoute>
-            <HomePage />
-          </PrivateRoute>
-        ),
+        element: <HomePage />,
       },
       {
         path: "/book/",
@@ -52,6 +49,14 @@ const router = createBrowserRouter([
         path: "book/:id",
         element: <BookPage />,
       },
+      {
+        path: "order",
+        element: (
+          <PrivateRoute>
+            <OrderPage />
+          </PrivateRoute>
+        ),
+      }
     ],
   },
   {

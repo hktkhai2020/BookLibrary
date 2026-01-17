@@ -15,7 +15,7 @@ const BookDetail: React.FC = () => {
   const [quantity, setQuantity] = useState(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const refGallery = useRef<ImageGallery>(null);
-  const { isUser } = useCurrentContext();
+  const { isUser, shoppingCart, setShoppingCart } = useCurrentContext();
   const navigative = useNavigate();
   useEffect(() => {
     if (id) {
@@ -65,7 +65,7 @@ const BookDetail: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center min-h-screen ">
         <Spin size="large" />
       </div>
     );
@@ -158,6 +158,7 @@ const BookDetail: React.FC = () => {
                   value={quantity}
                   onChange={(value) => setQuantity(value || 1)}
                   className="w-32"
+                  defaultValue={1}
                 />
                 <p className="text-gray-500 text-xs mt-2">
                   Còn lại: {bookDetail.quantity} sản phẩm
@@ -172,33 +173,42 @@ const BookDetail: React.FC = () => {
                   icon={<ShoppingCartOutlined />}
                   className="w-full sm:flex-1"
                   disabled={bookDetail.quantity === 0}
+                  onClick={() => {
+                    if (isUser) {
+                      const newShoppingCart = [...shoppingCart];
+                      const existingItemIndex = newShoppingCart.findIndex(
+                        (item) => item._id === bookDetail._id
+                      );
+                        console.log(existingItemIndex);
+                      if (existingItemIndex > -1) {
+                        newShoppingCart[existingItemIndex] = {
+                          ...newShoppingCart[existingItemIndex],
+                          quantity:
+                            newShoppingCart[existingItemIndex].quantity +
+                            quantity,
+                        };
+                      } else {
+                        newShoppingCart.push({
+                          _id: bookDetail._id,
+                          quantity,
+                          detail: bookDetail,
+                        });
+                      }
+
+                      localStorage.setItem(
+                        "shoppingCart",
+                        JSON.stringify(newShoppingCart)
+                      );
+                      setShoppingCart(newShoppingCart);
+                      message.success("Thêm vào giỏ hàng thành công");
+                    } else {
+                      message.error("Vui lòng đăng nhập để mua hàng");
+                      navigative("/login");
+                    }
+                  }}
                 >
-                  <span
-                    className="hidden sm:inline"
-                    onClick={() => {
-                      if (isUser) {
-                        message.success("Add 1 items success");
-                      } else {
-                        message.error("Please Sign in to shopping");
-                        navigative("/login");
-                      }
-                    }}
-                  >
-                    Thêm vào giỏ hàng
-                  </span>
-                  <span
-                    className="sm:hidden"
-                    onClick={() => {
-                      if (isUser) {
-                        message.success("Add 1 items success");
-                      } else {
-                        message.error("Please Sign in to shopping");
-                        navigative("/login");
-                      }
-                    }}
-                  >
-                    Thêm giỏ
-                  </span>
+                  <span className="hidden sm:inline">Thêm vào giỏ hàng</span>
+                  <span className="sm:hidden">Thêm giỏ</span>
                 </Button>
                 <Button
                   size="large"

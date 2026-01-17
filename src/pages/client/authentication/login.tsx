@@ -25,10 +25,6 @@ const Login: React.FC = () => {
   };
   const { isUser, setUser } = useCurrentContext();
 
-  // ! là non‑null assertion operator. Nó nói với TypeScript: "Tin tôi đi, giá trị này không phải null hoặc undefined ở runtime",
-  // auth.setUser!(res.data.data); // ép TS bỏ qua khả năng undefined
-  // const auth = useContext(AuthContext)!; // ép TS tin rằng context không null
-
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -40,7 +36,6 @@ const Login: React.FC = () => {
       const res = await LoginApi(username, password);
 
       const payload = res?.data?.data;
-      //?? là nullish coalescing: chọn giá trị bên phải chỉ khi bên trái là null hoặc undefined.
       const user = payload;
 
       if (user) {

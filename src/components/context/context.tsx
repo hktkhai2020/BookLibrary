@@ -12,15 +12,20 @@ interface IAppContext {
   isUser: IUser | null;
   setUser: (u: IUser | null) => void;
   isAppGlobalLoading: boolean;
-  setIsAppLoading: (v: boolean) => void;
+  shoppingCart: IShoppingCart[];
+  setShoppingCart: (cart: IShoppingCart[]) => void;
 }
-
+interface IShoppingCart {
+  _id: string;
+  quantity: number;
+  detail: IBookTable;
+}
 export const AuthContext = createContext<IAppContext | null>(null);
 
 export const AppContext = ({ children }: { children: React.ReactNode }) => {
   const [isUser, setUser] = useState<IUser | null>(null);
   const [isAppGlobalLoading, setIsAppLoading] = useState(false);
-
+  const [shoppingCart, setShoppingCart] = useState<IShoppingCart[]>([]);
   const delay = (ms: number) =>
     new Promise((resolve) => {
       setTimeout(resolve, ms);
@@ -38,15 +43,28 @@ export const AppContext = ({ children }: { children: React.ReactNode }) => {
         }
       }
     }
+
     setIsAppLoading(false);
   }, []);
   useEffect(() => {
     fetchAccountAPI();
   }, []);
+  useEffect(() => {
+    if (localStorage.getItem("shoppingCart")) {
+      setShoppingCart(JSON.parse(localStorage.getItem("shoppingCart") || "[]"));
+    }
+  }, []);
 
   const value = useMemo(
-    () => ({ isUser, setUser, isAppGlobalLoading, setIsAppLoading }),
-    [isUser, isAppGlobalLoading]
+    () => ({
+      isUser,
+      setUser,
+      isAppGlobalLoading,
+      setIsAppLoading,
+      shoppingCart,
+      setShoppingCart,
+    }),
+    [isUser, isAppGlobalLoading, shoppingCart]
   );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

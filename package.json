@@ -1,5 +1,5 @@
 {
-  "name": "Quan Ly Ban Hang",
+  "name": "BookLibrary",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -21,6 +21,7 @@
     "axios": "^1.12.2",
     "dayjs": "1.11.13",
     "exceljs": "^4.4.0",
+    "framer-motion": "^12.26.2",
     "nprogress": "^0.2.0",
     "react": "18.3.1",
     "react-csv": "^2.2.2",
