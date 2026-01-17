@@ -73,6 +73,18 @@ declare global {
     updatedAt: Date;
     __v: 0;
   }
+  interface IOrderTable {
+    name: string;
+    address: string;
+    phone: string;
+    totalPrice: number;
+    type: string;
+    detail: {
+      bookName: string;
+      quantity: number;
+      _id: string;
+    }[];
+  }
 }
 // định nghĩa các kiểu toàn cục ở đây nếu cần thiết
 // tránh sử dụng 'declare module' trong các file này để không gây nhầm lẫn

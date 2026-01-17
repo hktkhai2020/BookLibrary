@@ -8,7 +8,6 @@ import HomePage from "@/pages/client/home";
 import BookPage from "@/pages/client/book";
 import AboutPage from "@/pages/client/about";
 import { AppContext } from "@/components/context/context";
-import "nprogress/nprogress.css";
 import PrivateRoute from "pages/private.router";
 import LayoutAdmin from "components/layout/layout.admin";
 import DashboardPage from "pages/admin/dashboard";
@@ -19,6 +18,9 @@ import { App, ConfigProvider } from "antd";
 import enUS from "antd/locale/en_US";
 import { ThemeVariablesProvider } from "@/components/theme/theme.provider";
 import OrderPage from "@/pages/client/order";
+import "styles/global.css";
+import "nprogress/nprogress.css";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -56,7 +58,7 @@ const router = createBrowserRouter([
             <OrderPage />
           </PrivateRoute>
         ),
-      }
+      },
     ],
   },
   {

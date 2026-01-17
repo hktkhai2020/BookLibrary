@@ -226,7 +226,7 @@ const Header: React.FC = () => {
 
             {/* User Menu */}
             <div className="flex items-center gap-10">
-              <Badge count={shoppingCart.length || 1} className="w-10 h-10   ">
+              <Badge count={shoppingCart.length || 0} className="w-10 h-10   ">
                 <Popover placement="bottom" title="Carts" content={contentCart}>
                   <ShoppingCartOutlined className="text-blue-500 cursor-pointer w-full h-full" />
                 </Popover>

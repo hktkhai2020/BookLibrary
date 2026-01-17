@@ -84,6 +84,7 @@ const deleteBook = (id: string) => {
   const BACKEND_URL = `/api/v1/book/${id}`;
   return instance.delete(BACKEND_URL);
 };
+
 const createBook = (
   thumbnail: UploadFile[],
   slider: UploadFile[],
@@ -123,6 +124,11 @@ const updateBook = (data: Partial<IBookTable>, _id: string) => {
   const BACKEND_URL = `/api/v1/book/${_id}`;
   return instance.put(BACKEND_URL, data);
 };
+
+const createOrder = (data: IOrderTable) => {
+  const BACKEND_URL = `/api/v1/order`;
+  return instance.post(BACKEND_URL, data);
+};
 export {
   LoginApi,
   loginAccountAPI,
@@ -139,4 +145,5 @@ export {
   createBook,
   uploadImage,
   updateBook,
+  createOrder,
 };
