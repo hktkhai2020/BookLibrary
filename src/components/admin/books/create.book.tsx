@@ -67,7 +67,7 @@ const CreateBook: React.FC<{
         values.author,
         values.price,
         values.quantity,
-        values.category
+        values.category,
       );
       message.success("Đăng ký thành công. Vui lòng đăng nhập.");
       actionRef.current?.reload();
@@ -87,7 +87,7 @@ const CreateBook: React.FC<{
   };
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/v1/database/category")
+    fetch("https://backend-booklaborary.onrender.com/api/v1/database/category")
       .then((data) => {
         return data.json();
       })
@@ -235,7 +235,7 @@ const CreateBook: React.FC<{
 
   const handleUploadFile = async (
     option: RcCustomRequestOptions,
-    type: imageType
+    type: imageType,
   ) => {
     const { onSuccess, onError, file } = option;
 
@@ -251,7 +251,7 @@ const CreateBook: React.FC<{
           name: res.data.data.fileUploaded,
           fileName: res.data.data.fileUploaded,
           status: "done",
-          url: `http://localhost:8080/images/book/${res.data.data.fileUploaded}`,
+          url: `https://backend-booklaborary.onrender.com/images/book/${res.data.data.fileUploaded}`,
         } as UploadFile;
 
         if (type === "thumbnail") {
@@ -483,7 +483,6 @@ const CreateBook: React.FC<{
                 getValueFromEvent={normFile}
               >
                 <Upload
-                
                   multiple={true}
                   listType="picture-card"
                   /**

@@ -66,7 +66,7 @@ const UpdateBook: React.FC<{
         name: book.thumbnail,
         fileName: book.thumbnail,
         status: "done",
-        url: `http://localhost:8080/images/book/${book.thumbnail}`,
+        url: `https://backend-booklaborary.onrender.com/images/book/${book.thumbnail}`,
       };
 
       // Tạo UploadFile array cho slider
@@ -75,7 +75,7 @@ const UpdateBook: React.FC<{
         name: fileName,
         fileName: fileName,
         status: "done",
-        url: `http://localhost:8080/images/book/${fileName}`,
+        url: `https://backend-booklaborary.onrender.com/images/book/${fileName}`,
       }));
 
       // Set form values
@@ -97,7 +97,7 @@ const UpdateBook: React.FC<{
 
   // Fetch category list
   useEffect(() => {
-    fetch("http://localhost:8080/api/v1/database/category")
+    fetch("https://backend-booklaborary.onrender.com/api/v1/database/category")
       .then((data) => {
         return data.json();
       })
@@ -132,7 +132,7 @@ const UpdateBook: React.FC<{
           quantity: values.quantity,
           category: values.category,
         },
-        book._id
+        book._id,
       );
 
       message.success("Cập nhật sách thành công!");
@@ -262,7 +262,7 @@ const UpdateBook: React.FC<{
   };
   const handleUploadFile = async (
     option: RcCustomRequestOptions,
-    type: imageType
+    type: imageType,
   ) => {
     const { onSuccess, onError, file } = option;
 
@@ -278,7 +278,7 @@ const UpdateBook: React.FC<{
           name: res.data.data.fileUploaded,
           fileName: res.data.data.fileUploaded,
           status: "done",
-          url: `http://localhost:8080/images/book/${res.data.data.fileUploaded}`,
+          url: `https://backend-booklaborary.onrender.com/images/book/${res.data.data.fileUploaded}`,
         } as UploadFile;
 
         if (type === "thumbnail") {

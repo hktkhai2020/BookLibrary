@@ -73,7 +73,7 @@ const HomePage: React.FC = () => {
   ];
   const { isUser } = useCurrentContext();
   useEffect(() => {
-    fetch("http://localhost:8080/api/v1/database/category")
+    fetch("https://backend-booklaborary.onrender.com/api/v1/database/category")
       .then((data) => {
         return data.json();
       })

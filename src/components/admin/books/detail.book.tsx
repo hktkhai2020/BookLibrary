@@ -43,7 +43,7 @@ const DetailBook: React.FC<{
       label: "Thumbnail",
       children: (
         // <img
-        //   src={`http://localhost:8080/images/avatar/${detailBook?.thumbnail}`}
+        //   src={`https://backend-booklaborary.onrender.com/images/avatar/${detailBook?.thumbnail}`}
         //   style={{ width: "5rem", height: "4rem", objectFit: "cover" }}
         //   alt=""
         // />
@@ -51,7 +51,7 @@ const DetailBook: React.FC<{
         <Image
           width={200}
           alt="basic"
-          src={`http://localhost:8080/images/book/${detailBook?.thumbnail}`}
+          src={`https://backend-booklaborary.onrender.com/images/book/${detailBook?.thumbnail}`}
           style={{ width: "5rem", height: "4rem", objectFit: "cover" }}
         />
       ),
@@ -82,7 +82,7 @@ const DetailBook: React.FC<{
                     key={index}
                     width={200}
                     alt={`book-image-${index}`}
-                    src={`http://localhost:8080/images/book/${item}`}
+                    src={`https://backend-booklaborary.onrender.com/images/book/${item}`}
                     style={{
                       width: "5rem",
                       height: "4rem",

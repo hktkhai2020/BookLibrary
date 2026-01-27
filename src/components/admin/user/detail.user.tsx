@@ -45,7 +45,7 @@ const DetailUser: React.FC<{
       label: "ImageImage",
       children: (
         <img
-          src={`http://localhost:8080/images/avatar/${detailUser?.avatar}`}
+          src={`https://backend-booklaborary.onrender.com/images/avatar/${detailUser?.avatar}`}
           style={{ width: "5rem", height: "4rem", objectFit: "cover" }}
           alt=""
         />

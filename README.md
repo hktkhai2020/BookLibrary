@@ -357,7 +357,7 @@ Cấu hình API endpoint trong `src/services/axios.customize.ts`:
 
 ```typescript
 const instance = axios.create({
-  baseURL: `http://localhost:8080`, // hoặc import.meta.env.VITE_BACKEND_URL
+  baseURL: `https://backend-booklaborary.onrender.com/`, // hoặc import.meta.env.VITE_BACKEND_URL
   withCredentials: true,
 });
 ```
@@ -420,7 +420,7 @@ Sử dụng CSS variables từ Ant Design theme:
 
 ## 📝 Ghi Chú
 
-- ⚠️ **Backend API** cần chạy trên port 8080 (mặc định)
+- ⚠️ **Backend API** (Render): https://backend-booklaborary.onrender.com/
 - ⚠️ **CORS** phải được cấu hình đúng ở backend
 - ⚠️ **Upload ảnh** yêu cầu endpoint `/api/v1/file/upload`
 - ⚠️ **AI API** hiện tại dùng mock, cần tích hợp backend endpoint `/api/v1/ai/chat`

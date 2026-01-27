@@ -262,7 +262,7 @@ const OrderPage = () => {
                   >
                     <div className="w-20 h-28 sm:w-24 sm:h-32 shrink-0 overflow-hidden rounded-lg shadow-sm">
                       <img
-                        src={`http://localhost:8080/images/book/${item.detail.thumbnail}`}
+                        src={`https://backend-booklaborary.onrender.com/images/book/${item.detail.thumbnail}`}
                         alt={item.detail.thumbnail}
                         className="object-cover w-full h-full"
                       />
