@@ -66,8 +66,12 @@
 
 #### Dashboard
 
-- 📊 Thống kê tổng quan
-- 📈 Biểu đồ và metrics
+- 📊 Thống kê tổng quan với cards đẹp
+- 👥 Số lượng người dùng hoạt động
+- 📚 Tổng số sách trong kho
+- 📦 Tổng số đơn hàng
+- ✨ Animation CountUp cho số liệu
+- 🎨 White theme với icons màu pastel
 
 #### Quản Lý Sách
 
@@ -88,8 +92,18 @@
 
 #### Quản Lý Đơn Hàng
 
-- 📋 Xem danh sách đơn hàng
-- 📊 Thống kê đơn hàng
+- 📋 Xem danh sách đơn hàng với ProTable
+- 📊 Thông tin chi tiết: ID, Tên khách, Địa chỉ, SDT, Tổng giá, Ngày tạo
+- 🔍 Sắp xếp theo: Tổng giá, Ngày tạo, Tên khách
+- 📱 Responsive: Ẩn cột phụ trên mobile
+- 📄 Phân trang với pagination
+
+#### Trang Cá Nhân (Profile)
+
+- 👤 Xem và cập nhật thông tin cá nhân
+- 🖼️ Upload và thay đổi avatar
+- 🔒 Đổi mật khẩu
+- 📝 Form validation với Ant Design
 
 ### 🎨 Giao Diện & UX
 

@@ -40,7 +40,7 @@ const HomePage: React.FC = () => {
   const [category, setCategory] = useState<category>();
   const [dataBooks, setDataBooks] = useState<IBookTable[]>([]);
   const [query, setQuery] = useState<string>(
-    () => "current=1&pageSize=8&sort=-sold"
+    () => "current=1&pageSize=8&sort=-sold",
   );
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(8);
@@ -113,7 +113,6 @@ const HomePage: React.FC = () => {
     setQuery(params.toString());
   };
   if (!isUser) {
-    console.log("isUser", isUser);
     return <LandingPage />;
   } else {
     return (
@@ -358,6 +357,239 @@ const HomePage: React.FC = () => {
                 />
               </Row>
             </Spin>
+          </div>
+        </div>
+
+        {/* Footer Section - E-commerce Style */}
+        <div className="w-full bg-white border-t border-gray-200">
+          {/* Partners Section */}
+
+          {/* Main Footer Content */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <Row gutter={[32, 32]}>
+              {/* About Company */}
+              <Col xs={24} sm={12} md={6}>
+                <h4 className="text-gray-800 font-semibold mb-4 text-base">
+                  📚 BookStore
+                </h4>
+                <p className="text-gray-500 text-sm leading-relaxed mb-4">
+                  Hệ thống bán sách trực tuyến hàng đầu Việt Nam. Cam kết mang
+                  đến những cuốn sách chất lượng với giá tốt nhất.
+                </p>
+                <div className="flex gap-3">
+                  <a
+                    href="#"
+                    className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-blue-500 hover:text-white transition-all"
+                  >
+                    f
+                  </a>
+                  <a
+                    href="#"
+                    className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-pink-500 hover:text-white transition-all"
+                  >
+                    📷
+                  </a>
+                  <a
+                    href="#"
+                    className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-red-500 hover:text-white transition-all"
+                  >
+                    ▶
+                  </a>
+                  <a
+                    href="#"
+                    className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-blue-400 hover:text-white transition-all"
+                  >
+                    🐦
+                  </a>
+                </div>
+              </Col>
+
+              {/* Customer Service */}
+              <Col xs={24} sm={12} md={6}>
+                <h4 className="text-gray-800 font-semibold mb-4 text-base">
+                  Hỗ Trợ Khách Hàng
+                </h4>
+                <ul className="space-y-3">
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-500 text-sm hover:text-blue-600 transition-colors"
+                    >
+                      Trung tâm trợ giúp
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-500 text-sm hover:text-blue-600 transition-colors"
+                    >
+                      Hướng dẫn mua hàng
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-500 text-sm hover:text-blue-600 transition-colors"
+                    >
+                      Phương thức thanh toán
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-500 text-sm hover:text-blue-600 transition-colors"
+                    >
+                      Chính sách vận chuyển
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-500 text-sm hover:text-blue-600 transition-colors"
+                    >
+                      Tra cứu đơn hàng
+                    </a>
+                  </li>
+                </ul>
+              </Col>
+
+              {/* Policies */}
+              <Col xs={24} sm={12} md={6}>
+                <h4 className="text-gray-800 font-semibold mb-4 text-base">
+                  Chính Sách & Điều Khoản
+                </h4>
+                <ul className="space-y-3">
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-500 text-sm hover:text-blue-600 transition-colors"
+                    >
+                      Chính sách bảo mật
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-500 text-sm hover:text-blue-600 transition-colors"
+                    >
+                      Điều khoản sử dụng
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-500 text-sm hover:text-blue-600 transition-colors"
+                    >
+                      Chính sách đổi trả
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-500 text-sm hover:text-blue-600 transition-colors"
+                    >
+                      Quy chế hoạt động
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="text-gray-500 text-sm hover:text-blue-600 transition-colors"
+                    >
+                      Giải quyết khiếu nại
+                    </a>
+                  </li>
+                </ul>
+              </Col>
+
+              {/* Contact */}
+              <Col xs={24} sm={12} md={6}>
+                <h4 className="text-gray-800 font-semibold mb-4 text-base">
+                  Liên Hệ
+                </h4>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-2">
+                    <span className="text-gray-400">📍</span>
+                    <span className="text-gray-500 text-sm">
+                      123 Đường Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-gray-400">📞</span>
+                    <span className="text-gray-500 text-sm">
+                      1900 1234 56 (8h - 22h)
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-gray-400">✉️</span>
+                    <span className="text-gray-500 text-sm">
+                      support@bookstore.vn
+                    </span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-gray-400">🌐</span>
+                    <span className="text-gray-500 text-sm">
+                      www.bookstore.vn
+                    </span>
+                  </li>
+                </ul>
+              </Col>
+            </Row>
+          </div>
+
+          <Divider className="my-0" />
+
+          {/* Certificates Section */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <Row
+              gutter={[16, 16]}
+              align="middle"
+              justify="space-between"
+              className="flex-col sm:flex-row"
+            >
+              <Col xs={24} sm={12} md={8}>
+                <div className="flex items-center gap-4 justify-center sm:justify-start">
+                  <div className="w-32 h-12 bg-gray-50 border border-gray-200 rounded flex items-center justify-center">
+                    <span className="text-xs text-gray-600 text-center">
+                      🏛️ Đã đăng ký
+                      <br />
+                      Bộ Công Thương
+                    </span>
+                  </div>
+                  <div className="w-32 h-12 bg-gray-50 border border-gray-200 rounded flex items-center justify-center">
+                    <span className="text-xs text-gray-600 text-center">
+                      ✅ Chứng nhận
+                      <br />
+                      ISO 9001:2015
+                    </span>
+                  </div>
+                  <div className="w-32 h-12 bg-gray-50 border border-gray-200 rounded flex items-center justify-center">
+                    <span className="text-xs text-gray-600 text-center">
+                      🔒 SSL
+                      <br />
+                      Secure
+                    </span>
+                  </div>
+                </div>
+              </Col>
+              <Col xs={24} sm={12} md={8}>
+                <div className="text-center sm:text-right">
+                  <p className="text-gray-400 text-xs">
+                    Giấy CNĐKKD số 0123456789 do Sở KH&ĐT TP.HCM cấp ngày
+                    01/01/2024
+                  </p>
+                </div>
+              </Col>
+            </Row>
+          </div>
+
+          {/* Copyright */}
+          <div className="bg-gray-50 border-t border-gray-200">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+              <p className="text-center text-gray-400 text-sm">
+                © 2024 BookStore. All rights reserved. Made with ❤️ in Vietnam
+              </p>
+            </div>
           </div>
         </div>
       </>

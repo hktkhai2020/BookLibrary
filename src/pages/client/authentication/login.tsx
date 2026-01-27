@@ -46,7 +46,7 @@ const Login: React.FC = () => {
         if (user.user.role === "USER") {
           navigate("/");
         } else {
-          navigate("/admin");
+          navigate("/admin/dashboard");
         }
       } else {
         notification.error({
@@ -72,7 +72,7 @@ const Login: React.FC = () => {
 
   // Handle Failed Login
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
-    errorInfo
+    errorInfo,
   ) => {
     console.log("Failed:", errorInfo);
   };
@@ -94,7 +94,7 @@ const Login: React.FC = () => {
         if (isUser.role === "USER") {
           navigate("/");
         } else if (isUser.role === "ADMIN") {
-          navigate("/admin");
+          navigate("/admin/dashboard");
         }
       }, 3000); // 3 giây
 

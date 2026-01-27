@@ -25,7 +25,7 @@ const registerAPI = (
   fullName: string,
   email: string,
   password: string,
-  phone: string
+  phone: string,
 ) => {
   const BACKEND_URL = "/api/v1/user/register";
   const data = {
@@ -45,7 +45,7 @@ const createUser = (
   fullName: string,
   email: string,
   password: string,
-  phone: string
+  phone: string,
 ) => {
   const BACKEND_URL = "/api/v1/user";
   const data = {
@@ -92,7 +92,7 @@ const createBook = (
   author: string,
   price: number,
   quantity: number,
-  category: string
+  category: string,
 ) => {
   const BACKEND_URL = `/api/v1/book`;
   console.log(thumbnail, slider);
@@ -164,7 +164,14 @@ const uploadAvatarAPI = (file: File | UploadFile) => {
   bodyFormData.append("fileImg", file as File);
   return instance.post(BACKEND_URL, bodyFormData, config);
 };
-
+const dashboardAPI = () => {
+  const BACKEND_URL = `/api/v1/database/dashboard`;
+  return instance.get(BACKEND_URL);
+};
+const listOrderAPI = (query: string) => {
+  const BACKEND_URL = `/api/v1/order?${query}`;
+  return instance.get(BACKEND_URL);
+};
 export {
   LoginApi,
   loginAccountAPI,
@@ -186,4 +193,6 @@ export {
   updatePasswordAPI,
   updateInfoAPI,
   uploadAvatarAPI,
+  dashboardAPI,
+  listOrderAPI,
 };

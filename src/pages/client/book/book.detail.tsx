@@ -1,7 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ImageGallery from "react-image-gallery";
-import { Button, Divider, InputNumber, message, Rate, Spin, Tag } from "antd";
+import {
+  Button,
+  Divider,
+  InputNumber,
+  message,
+  Rate,
+  Spin,
+  Tag,
+  Breadcrumb,
+} from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { getBookDetailAPI } from "@/services/api.service";
 import ModalGallery from "./modal.gallery";
@@ -49,19 +58,33 @@ const BookDetail: React.FC = () => {
           })),
         ]
       : bookDetail?.thumbnail
-      ? [
-          {
-            original: `http://localhost:8080/images/book/${bookDetail.thumbnail}`,
-            thumbnail: `http://localhost:8080/images/book/${bookDetail.thumbnail}`,
-          },
-        ]
-      : [];
+        ? [
+            {
+              original: `http://localhost:8080/images/book/${bookDetail.thumbnail}`,
+              thumbnail: `http://localhost:8080/images/book/${bookDetail.thumbnail}`,
+            },
+          ]
+        : [];
 
   const handleOnclickImage = () => {
     const index = refGallery.current?.getCurrentIndex() as number;
     setCurrentIndex(index || 0);
     setIsOpenModalGallery(true);
   };
+
+  const breadcrumb = [
+    {
+      title: "Trang chủ",
+      href: "/",
+    },
+    {
+      title: "Sách",
+    },
+    {
+      title: bookDetail?.mainText,
+      href: `/book/${bookDetail?._id}`,
+    },
+  ];
 
   if (isLoading) {
     return (
@@ -81,7 +104,8 @@ const BookDetail: React.FC = () => {
 
   return (
     <>
-      <div className="w-full overflow-x-hidden">
+      <div className="w-full overflow-x-hidden mt-2 md:mt-4 mx-2 sm:mx-4 md:mx-7 flex flex-col items-center">
+        <Breadcrumb items={breadcrumb} />
         <div className="w-full flex justify-center mt-2 md:mt-4 mx-2 sm:mx-4 md:mx-7">
           <div className="main w-full max-w-7xl py-4 sm:py-6 md:py-10 px-4 sm:px-6 md:px-10 bg-[var(--ant-color-bg-container)] border border-black/10 shadow-sm flex flex-col lg:flex-row gap-6 md:gap-10 rounded-[var(--ant-border-radius-lg)]">
             {/* Gallery Section */}
@@ -177,9 +201,9 @@ const BookDetail: React.FC = () => {
                     if (isUser) {
                       const newShoppingCart = [...shoppingCart];
                       const existingItemIndex = newShoppingCart.findIndex(
-                        (item) => item._id === bookDetail._id
+                        (item) => item._id === bookDetail._id,
                       );
-                        console.log(existingItemIndex);
+                      console.log(existingItemIndex);
                       if (existingItemIndex > -1) {
                         newShoppingCart[existingItemIndex] = {
                           ...newShoppingCart[existingItemIndex],
@@ -197,7 +221,7 @@ const BookDetail: React.FC = () => {
 
                       localStorage.setItem(
                         "shoppingCart",
-                        JSON.stringify(newShoppingCart)
+                        JSON.stringify(newShoppingCart),
                       );
                       setShoppingCart(newShoppingCart);
                       message.success("Thêm vào giỏ hàng thành công");
@@ -216,7 +240,33 @@ const BookDetail: React.FC = () => {
                   disabled={bookDetail.quantity === 0}
                   onClick={() => {
                     if (isUser) {
+                      const newShoppingCart = [...shoppingCart];
+                      const existingItemIndex = newShoppingCart.findIndex(
+                        (item) => item._id === bookDetail._id,
+                      );
+                      console.log(existingItemIndex);
+                      if (existingItemIndex > -1) {
+                        newShoppingCart[existingItemIndex] = {
+                          ...newShoppingCart[existingItemIndex],
+                          quantity:
+                            newShoppingCart[existingItemIndex].quantity +
+                            quantity,
+                        };
+                      } else {
+                        newShoppingCart.push({
+                          _id: bookDetail._id,
+                          quantity,
+                          detail: bookDetail,
+                        });
+                      }
+
+                      localStorage.setItem(
+                        "shoppingCart",
+                        JSON.stringify(newShoppingCart),
+                      );
+                      setShoppingCart(newShoppingCart);
                       message.success("Add 1 items success");
+                      navigative("/order");
                     } else {
                       message.error("Please Sign in to shopping");
                       navigative("/login");

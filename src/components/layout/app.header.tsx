@@ -159,7 +159,7 @@ const Header: React.FC = () => {
                 label: (
                   <div
                     className="flex items-center gap-2 cursor-pointer"
-                    onClick={() => navigate("/admin")}
+                    onClick={() => navigate("/admin/dashboard")}
                   >
                     <SettingOutlined />
                     <span>Quản trị</span>

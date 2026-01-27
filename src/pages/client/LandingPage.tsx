@@ -163,17 +163,17 @@ const LandingPage: React.FC = () => {
         <div className="absolute inset-0 bg-linear-to-br from-white via-gray-50 to-white opacity-70" />
         {/* Floating book emojis */}
         <motion.div
-          className="absolute top-[12%] left-[8%] text-7xl opacity-10 grayscale"
+          className="absolute top-[12%] left-[8%] text-7xl  "
           {...floatAnimation}
         >
           📚
         </motion.div>
         <motion.div
-          className="absolute bottom-[15%] right-[10%] text-6xl opacity-10 grayscale"
+          className="absolute bottom-[15%] right-[10%] text-6xl "
           animate={{ y: [0, -30, 0] }}
           transition={{ duration: 6, repeat: Infinity }}
         >
-          �
+          📔
         </motion.div>
         {/* Hero Content */}
         <motion.div
