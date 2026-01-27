@@ -49,19 +49,19 @@ const BookDetail: React.FC = () => {
     bookDetail?.slider && bookDetail.slider.length > 0
       ? [
           {
-            original: `http://localhost:8080/images/book/${bookDetail.thumbnail}`,
-            thumbnail: `http://localhost:8080/images/book/${bookDetail.thumbnail}`,
+            original: `https://backend-booklaborary.onrender.com/images/book/${bookDetail.thumbnail}`,
+            thumbnail: `https://backend-booklaborary.onrender.com/images/book/${bookDetail.thumbnail}`,
           },
           ...bookDetail.slider.map((img) => ({
-            original: `http://localhost:8080/images/book/${img}`,
-            thumbnail: `http://localhost:8080/images/book/${img}`,
+            original: `https://backend-booklaborary.onrender.com/images/book/${img}`,
+            thumbnail: `https://backend-booklaborary.onrender.com/images/book/${img}`,
           })),
         ]
       : bookDetail?.thumbnail
         ? [
             {
-              original: `http://localhost:8080/images/book/${bookDetail.thumbnail}`,
-              thumbnail: `http://localhost:8080/images/book/${bookDetail.thumbnail}`,
+              original: `https://backend-booklaborary.onrender.com/images/book/${bookDetail.thumbnail}`,
+              thumbnail: `https://backend-booklaborary.onrender.com/images/book/${bookDetail.thumbnail}`,
             },
           ]
         : [];

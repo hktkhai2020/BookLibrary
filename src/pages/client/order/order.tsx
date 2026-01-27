@@ -29,7 +29,7 @@ const OrderPage = () => {
   const total = useMemo(() => {
     return shoppingCart.reduce(
       (total, item) => total + item.detail.price * item.quantity,
-      0
+      0,
     );
   }, [shoppingCart]);
   const steps = [
@@ -58,7 +58,7 @@ const OrderPage = () => {
       })),
     };
     try {
-      const res = await createOrder(data);
+      const res = await createOrder(data as IOrderTable);
       if (res.data) {
         message.success("Đặt hàng thành công");
         setShoppingCart([]);
@@ -94,7 +94,7 @@ const OrderPage = () => {
                   >
                     <div className="w-20 h-28 sm:w-24 sm:h-32 shrink-0 overflow-hidden rounded-lg shadow-sm">
                       <img
-                        src={`http://localhost:8080/images/book/${item.detail.thumbnail}`}
+                        src={`https://backend-booklaborary.onrender.com/images/book/${item.detail.thumbnail}`}
                         alt={item.detail.thumbnail}
                         className="object-cover w-full h-full"
                       />
@@ -137,7 +137,7 @@ const OrderPage = () => {
                             setShoppingCart(newCart);
                             localStorage.setItem(
                               "shoppingCart",
-                              JSON.stringify(newCart)
+                              JSON.stringify(newCart),
                             );
                           }
                         }}
@@ -159,12 +159,12 @@ const OrderPage = () => {
                       className="text-red-500 cursor-pointer hover:scale-110 transition-transform"
                       onClick={() => {
                         const newCart = shoppingCart.filter(
-                          (x) => x._id !== item._id
+                          (x) => x._id !== item._id,
                         );
                         setShoppingCart(newCart);
                         localStorage.setItem(
                           "shoppingCart",
-                          JSON.stringify(newCart)
+                          JSON.stringify(newCart),
                         );
                       }}
                     >

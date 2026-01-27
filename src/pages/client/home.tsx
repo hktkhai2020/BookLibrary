@@ -309,7 +309,7 @@ const HomePage: React.FC = () => {
                           <Image
                             className="w-full h-full object-cover duration-300 group-hover:scale-110"
                             alt="basic"
-                            src={`http://localhost:8080/images/book/${item.thumbnail}`}
+                            src={`https://backend-booklaborary.onrender.com/images/book/${item.thumbnail}`}
                             preview={true}
                           />
                         </div>

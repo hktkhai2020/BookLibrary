@@ -70,7 +70,7 @@ const Header: React.FC = () => {
               >
                 <div className="w-12 h-16 shrink-0">
                   <img
-                    src={`http://localhost:8080/images/book/${item.detail.thumbnail}`}
+                    src={`https://backend-booklaborary.onrender.com/images/book/${item.detail.thumbnail}`}
                     alt={item.detail.thumbnail}
                     className="w-full h-full object-cover rounded shadow-sm group-hover:shadow-md transition-shadow"
                   />
@@ -267,7 +267,7 @@ const Header: React.FC = () => {
                 >
                   <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
                     <Avatar
-                      src={`http://localhost:8080/images/avatar/${isUser.avatar}`}
+                      src={`https://backend-booklaborary.onrender.com/images/avatar/${isUser.avatar}`}
                       className="border-2 border-blue-500"
                     />
                     <span className="hidden sm:inline text-sm font-medium">

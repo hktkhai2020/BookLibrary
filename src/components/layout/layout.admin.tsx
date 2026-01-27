@@ -164,13 +164,13 @@ const LayoutAdmin: React.FC = () => {
                   {
                     className: "trigger",
                     onClick: () => setCollapsed(!collapsed),
-                  }
+                  },
                 )}
               </span>
               <Dropdown menu={{ items: itemsDropdown }} trigger={["click"]}>
                 <Space style={{ cursor: "pointer" }}>
                   <img
-                    src={`http://localhost:8080/images/avatar/${isUser?.avatar}`}
+                    src={`https://backend-booklaborary.onrender.com/images/avatar/${isUser?.avatar}`}
                     alt="avatar"
                     style={{
                       width: "4rem",

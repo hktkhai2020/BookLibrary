@@ -119,7 +119,7 @@ const ProfilePage: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
           name: res.data.data.fileUploaded,
           fileName: res.data.data.fileUploaded,
           status: "done",
-          url: `http://localhost:8080/images/book/${res.data.data.fileUploaded}`,
+          url: `https://backend-booklaborary.onrender.com/images/book/${res.data.data.fileUploaded}`,
         } as UploadFile;
 
         setFileListAvatar([uploadFile]);
@@ -207,7 +207,7 @@ const ProfilePage: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
     }
   };
   const onFinishChangePassword: FormProps<IChangePassword>["onFinish"] = async (
-    values
+    values,
   ) => {
     const { currentPassword, newPassword } = values;
 
